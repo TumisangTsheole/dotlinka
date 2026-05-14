@@ -1,0 +1,50 @@
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Inter;
+}
+
+.vh-50 {height: 90vh;}
+.w-85 {width: 80%;}
+
+
+@keyframes flowAndGlow {
+    0% {
+        background-position: 0% 50%;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+    }
+    50% {
+        background-position: 100% 50%;
+        filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.6));
+    }
+    100% {
+        background-position: 0% 50%;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+    }
+}
+
+
+.animated-gradient-text {
+    /* Step 1: Create the multi-color gradient */
+    background: linear-gradient(
+        270deg, 
+        #00ff00, #7928ca, #abaaac, #48bb78, #ed8936, #ff0000
+    );
+    background-size: 200% 200%;
+
+    /* Step 2: Clip the background to the text */
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    /* Step 3: Make the actual text transparent so the background shows through */
+    color: transparent;
+    
+    /* Step 4: Apply the animation */
+    animation: flowAndGlow 8s ease infinite;
+    
+    /* Make it look bold and glowing */
+    
+    display: inline-block; /* Essential for the gradient to calculate correctly */
+}

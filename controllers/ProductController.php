@@ -1,16 +1,16 @@
 <?php
 
-    class ProductController {
-        private $_dbConnection;
+class ProductController {
+    private $_dbConnection;
 
-        public function __construct($dbConnection){
-            //
-        }
-
-        //GET
-        public function getProduct($id){
-            //
-        }
-
-        
+    public function __construct($dbConnection){
+        //
     }
+
+    //GET
+    public function getProduct($id){
+        //
+    }
+
+    
+}

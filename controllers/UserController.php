@@ -1,9 +1,16 @@
 <?php
 
-    class UserController {
-        private $_dbConnection;
+class UserController {
+    private $_dbConnection;
 
-        public function __construct($dbConnection){
-            //
-        }
+    public function __construct($dbConnection){
+        //
     }
+
+    //GET
+    public function getUser($id){
+        //
+    }
+
+    
+}

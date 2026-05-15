@@ -1,5 +1,15 @@
 <?php include "data/products.php"; ?>
 <?php include "db/dbconnection.php"; ?>
+<?php include "controllers/Router.php"; ?>
+<?php include "data/global/sessionData.php"; ?>
+
+<?php 
+  if (CheckSession()){
+    header("Location: /dashboard.php");
+    exit;
+  }
+?>
+
 
 <!doctype html>
 <html lang="en">

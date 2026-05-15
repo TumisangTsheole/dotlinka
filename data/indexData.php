@@ -1,6 +1,4 @@
 <?php
-// Replace this array with a DB query, e.g.:
-// $products = $pdo->query("SELECT p.*, u.username, u.avatar, u.rating, u.total_sales FROM products p JOIN users u ON p.user_id = u.id ORDER BY p.created_at DESC LIMIT 6")->fetchAll();
 
 $products = [
     [

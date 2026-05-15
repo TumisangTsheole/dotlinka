@@ -1,0 +1,112 @@
+<?php
+
+include "../models/user.php";
+include "../models/product.php";
+
+<?php
+
+$products = [
+    [
+        'title'       => 'Sony WH-1000XM5 headphones',
+        'category'    => 'Electronics',
+        'description' => 'Barely used, original box included. Noise cancellation still pristine.',
+        'price'       => 3200,
+        'condition'   => 'Like new',
+        'badge'       => 'Hot',
+        'badge_class' => 'badge-hot',
+        'image'       => 'https://placehold.co/400x300/E6F1FB/378ADD?text=🎧',
+        'seller'      => [
+            'name'        => 'Thabo M.',
+            'initials'    => 'TM',
+            'rating'      => '4.9',
+            'total_sales' => 142,
+            'avatar'      => null, // set to image path if available
+        ],
+    ],
+    [
+        'title'       => "Vintage Levi's 501 jeans — W32 L32",
+        'category'    => 'Fashion',
+        'description' => 'Authentic 90s stonewash. Minor fade adds character, no tears or stains.',
+        'price'       => 850,
+        'condition'   => 'Good',
+        'badge'       => 'New',
+        'badge_class' => 'badge-new',
+        'image'       => 'https://placehold.co/400x300/EEEDFE/534AB7?text=👖',
+        'seller'      => [
+            'name'        => 'Lerato V.',
+            'initials'    => 'LV',
+            'rating'      => '4.7',
+            'total_sales' => 38,
+            'avatar'      => null,
+        ],
+    ],
+    [
+        'title'       => 'Weber Q1200 portable gas braai',
+        'category'    => 'Home & Garden',
+        'description' => 'Cleaned and ready to use. Spare gas canister included. Compact and powerful.',
+        'price'       => 2100,
+        'condition'   => 'Good',
+        'badge'       => null,
+        'badge_class' => null,
+        'image'       => 'https://placehold.co/400x300/FAECE7/D85A30?text=🔥',
+        'seller'      => [
+            'name'        => 'Pieter K.',
+            'initials'    => 'PK',
+            'rating'      => '5.0',
+            'total_sales' => 21,
+            'avatar'      => null,
+        ],
+    ],
+    [
+        'title'       => 'iPad Air 5th gen — 256 GB Wi-Fi',
+        'category'    => 'Electronics',
+        'description' => 'Space grey, minor scratch on back corner. Screen is immaculate.',
+        'price'       => 7500,
+        'condition'   => 'Fair',
+        'badge'       => 'Featured',
+        'badge_class' => 'badge-featured',
+        'image'       => 'https://placehold.co/400x300/EAF3DE/3B6D11?text=📱',
+        'seller'      => [
+            'name'        => 'Asha N.',
+            'initials'    => 'AN',
+            'rating'      => '4.8',
+            'total_sales' => 67,
+            'avatar'      => null,
+        ],
+    ],
+    [
+        'title'       => 'Cannondale Synapse road bike',
+        'category'    => 'Sporting Goods',
+        'description' => '54cm frame, Shimano 105 groupset, new tyres fitted last month.',
+        'price'       => 12000,
+        'condition'   => 'Like new',
+        'badge'       => 'New',
+        'badge_class' => 'badge-new',
+        'image'       => 'https://placehold.co/400x300/FAEEDA/BA7517?text=🚴',
+        'seller'      => [
+            'name'        => 'Ben W.',
+            'initials'    => 'BW',
+            'rating'      => '4.6',
+            'total_sales' => 9,
+            'avatar'      => null,
+        ],
+    ],
+    [
+        'title'       => 'First edition Harry Potter boxed set',
+        'category'    => 'Collectibles',
+        'description' => 'All 7 books, UK Bloomsbury prints. Minor shelf wear on outer box.',
+        'price'       => 4800,
+        'condition'   => 'Good',
+        'badge'       => 'Hot',
+        'badge_class' => 'badge-hot',
+        'image'       => 'https://placehold.co/400x300/FBEAF0/993556?text=📚',
+        'seller'      => [
+            'name'        => 'Sindi R.',
+            'initials'    => 'SR',
+            'rating'      => '5.0',
+            'total_sales' => 15,
+            'avatar'      => null,
+        ],
+    ],
+];
+

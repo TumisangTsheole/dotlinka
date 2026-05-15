@@ -16,8 +16,8 @@
 <style>
   .anchor-underline {
     background-image: linear-gradient(#5fca66 0 0);
-    background-position: bottom left; /*Adjust the background-position to move the line*/
-    background-size: 20% 2px; /*Adjust the background size to control length and height*/
+    background-position: bottom left; 
+    background-size: 20% 2px; 
     background-repeat: no-repeat;
     
     font-weight: unset;

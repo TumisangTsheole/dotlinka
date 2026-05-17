@@ -3,22 +3,22 @@
 class Product {
     // the same item will have the same id regardless of quantity
     // unique item identification will the seller's responsibility
-    private $id;
-    private $name;
-    private $description;
-    private $price;
-    private $seller;
-    private $quantity;
-    private $category; // TODO: make this an enum
+    private int $id;
+    private string $name;
+    private string $description;
+    private float $price;
+    private string $seller;
+    private int $quantity;
+    private string $category; // TODO: make this an enum
 
     public function __construct(
-        $id,
-        $name,
-        $description,
-        $price,
-        $seller,
-        $quantity,
-        $category
+        int $id,
+        string $name,
+        string $description,
+        float $price,
+        string $seller,
+        int $quantity,
+        string $category
     ){
         $this->$id = $id;
         $this->$name = $name;

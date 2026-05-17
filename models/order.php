@@ -1,21 +1,21 @@
 <?php
 
 class Order {
-    private $id; 
-    private $buyer;
+    private int $id; 
+    private string $buyer;
     // private $seller; this information is already present in the product model
-    private $products = [];
-    private $totalCost;
-    private $status;
-    private $orderFulfillmentDate; //init with SAST time on object creation
+    private array $products = [];
+    private float $totalCost;
+    private string $status;
+    private DateTime $orderFulfillmentDate; //init with SAST time on object creation
     // add dates
     
     public function __construct(
-        $buyer,
-        $seller,
-        $products,
-        $totalCost,
-        $status  
+        string $buyer,
+        string $seller,
+        array $products,
+        float $totalCost,
+        string $status  
     )
     {
         //implement validation logic

@@ -5,6 +5,14 @@
 *  for routing requests to the relevant controllers
 */
 
+include "../db/dbconnection.php";
+include "OrderController.php";
+include "ProductController.php";
+include "UserController.php";
+
+include "../data/indexData.php";
+
+
 $method = $_SERVER['REQUEST_METHOD'];
 $path = $_SERVER['REQUEST_URI'];
 
@@ -15,6 +23,12 @@ switch ($path){
     case "/": // only session and cart data is probably going to be used here.
         switch ($method){
             case "GET":
+                $product = new ProductController($connection);
+                $product->getAllProducts(); 
+
+                //populate indexData.php products
+                $x = "Populated";
+
                 break;
             default:  
                 break;          

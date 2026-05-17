@@ -1,5 +1,4 @@
 <?php
-
 $products = [
     [
         'title'       => 'Sony WH-1000XM5 headphones',

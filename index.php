@@ -1,12 +1,17 @@
-<?php include "data/products.php"; ?>
-<?php include "db/dbconnection.php"; ?>
-<?php include "controllers/Router.php"; ?>
-<?php include "data/global/sessionData.php"; ?>
+<?php
+  include "db/dbconnection.php";
+  include "data/indexData.php";
+  include "controllers/Router.php";
+  include "data/global/sessionData.php";
+  include "data/products.php";
+?>
 
-<?php 
+// If session exists, redirect to dashboard
+<?php
   if (CheckSession()){
+
     header("Location: /dashboard.php");
-    exit;
+    exit; // dont execute the rest
   }
 ?>
 

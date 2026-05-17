@@ -12,5 +12,9 @@ class ProductController {
         //
     }
 
+    public function getAllProducts(){
+       // 
+    }
+
     
 }

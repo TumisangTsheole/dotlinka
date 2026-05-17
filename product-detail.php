@@ -1,3 +1,16 @@
+<?php
+  require "controllers/Router.php";
+  require "data/global/sessionData.php";
+  // require "data/productDetailData.php";
+
+// If session doesnt exist, redirect to index
+  if (!CheckSession()){
+    header("Location: /index.php");
+    exit; // dont execute the rest
+    } 
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -137,32 +150,31 @@
   <!-- Product Detail -->
   <div class="product-detail">
     <?php
-    // Example product (replace with DB query by ID)
-    $product = [
-      'title'=>'Sony WH-1000XM5 headphones',
-      'category'=>'Electronics',
-      'description'=>'Barely used, original box included. Noise cancellation still pristine.',
-      'price'=>3200,
-      'condition'=>'Like new',
-      'image'=>'https://placehold.co/600x400/E6F1FB/378ADD?text=🎧',
-      'seller'=>['name'=>'Thabo M.','initials'=>'TM','rating'=>'4.9','total_sales'=>142]
-    ];
+    // $productDetailPageProducts = [
+    //   'title'=>'Sony WH-1000XM5 headphones',
+    //   'category'=>'Electronics',
+    //   'description'=>'Barely used, original box included. Noise cancellation still pristine.',
+    //   'price'=>3200,
+    //   'condition'=>'Like new',
+    //   'image'=>'https://placehold.co/600x400/E6F1FB/378ADD?text=🎧',
+    //   'seller'=>['name'=>'Thabo M.','initials'=>'TM','rating'=>'4.9','total_sales'=>142]
+    // ];
     ?>
     <div class="product-img">
-      <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['title']) ?>">
+      <img src="<?= htmlspecialchars($productDetailPageProducts['image']) ?>" alt="<?= htmlspecialchars($productDetailPageProducts['product_name']) ?>">
     </div>
     <div class="product-info">
-      <div class="category"><?= htmlspecialchars($product['category']) ?></div>
-      <h1><?= htmlspecialchars($product['title']) ?></h1>
-      <div class="price">R <?= number_format($product['price']) ?></div>
-      <div class="condition"><?= htmlspecialchars($product['condition']) ?></div>
-      <p><?= htmlspecialchars($product['description']) ?></p>
+      <div class="category"><?= htmlspecialchars($productDetailPageProducts['category']) ?></div>
+      <h1><?= htmlspecialchars($productDetailPageProducts['product_name']) ?></h1>
+      <div class="price">R <?= number_format($productDetailPageProducts['price']) ?></div>
+      <div class="condition"><?= htmlspecialchars($productDetailPageProducts['condition']) ?></div>
+      <p><?= htmlspecialchars($productDetailPageProducts['description']) ?></p>
 
       <div class="seller-box">
-        <div class="seller-avatar"><?= htmlspecialchars($product['seller']['initials']) ?></div>
+        <div class="seller-avatar"><?= htmlspecialchars($productDetailPageProducts['seller']['initials']) ?></div>
         <div class="seller-info">
-          <?= htmlspecialchars($product['seller']['name']) ?>
-          <span>★ <?= htmlspecialchars($product['seller']['rating']) ?> · <?= $product['seller']['total_sales'] ?> sales</span>
+          <?= htmlspecialchars($productDetailPageProducts['firstName']) ?>
+          <span>★ <?= htmlspecialchars($productDetailPageProductsDetailPageProducts['rating']) ?> · <?= $productDetailPageProductsDetailPageProducts['seller']['total_sales'] ?> sales</span>
         </div>
       </div>
 

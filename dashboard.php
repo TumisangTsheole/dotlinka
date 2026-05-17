@@ -1,3 +1,15 @@
+<?php
+  require "controllers/Router.php";
+  require "data/global/sessionData.php";
+
+// If session doesnt exist, redirect to index
+  if (!CheckSession()){
+    header("Location: /index.php");
+    exit; // dont execute the rest
+    } 
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,45 +127,24 @@
 
     <div class="row">
       <?php
-      // Example product array (replace with DB query)
-      $products = [
-        [
-          'title'=>'Sony WH-1000XM5 headphones',
-          'category'=>'Electronics',
-          'description'=>'Barely used, original box included.',
-          'price'=>3200,
-          'condition'=>'Like new',
-          'image'=>'https://placehold.co/400x300/E6F1FB/378ADD?text=🎧',
-          'seller'=>['name'=>'Thabo M.','initials'=>'TM','rating'=>'4.9','total_sales'=>142]
-        ],
-        [
-          'title'=>"Vintage Levi's 501 jeans — W32 L32",
-          'category'=>'Fashion',
-          'description'=>'Authentic 90s stonewash. Minor fade adds character.',
-          'price'=>850,
-          'condition'=>'Good',
-          'image'=>'https://placehold.co/400x300/EEEDFE/534AB7?text=👖',
-          'seller'=>['name'=>'Lerato V.','initials'=>'LV','rating'=>'4.7','total_sales'=>38]
-        ]
-      ];
-      foreach ($products as $product): ?>
+      foreach ($dashboardPageProducts as $product): ?>
         <a href="./product-detail.php" class="mp-card">
           <div class="mp-img">
-            <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['title']) ?>">
+            <!-- <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>"> -->
           </div>
           <div class="mp-body">
             <p class="mp-cat"><?= htmlspecialchars($product['category']) ?></p>
-            <p class="mp-name"><?= htmlspecialchars($product['title']) ?></p>
+            <p class="mp-name"><?= htmlspecialchars($product['product_name']) ?></p>
             <p class="mp-desc"><?= htmlspecialchars($product['description']) ?></p>
             <div class="mp-price-row">
               <span class="mp-price">R <?= number_format($product['price']) ?></span>
-              <span class="mp-cond"><?= htmlspecialchars($product['condition']) ?></span>
+              <!-- <span class="mp-cond"><?= htmlspecialchars($product['condition']) ?></span> -->
             </div>
             <div class="mp-seller">
-              <div class="mp-avatar"><?= htmlspecialchars($product['seller']['initials']) ?></div>
+              <!-- <div class="mp-avatar"><?= htmlspecialchars($product['initials']) ?></div> -->
               <div>
-                <div class="mp-seller-name"><?= htmlspecialchars($product['seller']['name']) ?></div>
-                <div class="mp-seller-meta"><span class="mp-star">★</span> <?= htmlspecialchars($product['seller']['rating']) ?> · <?= $product['seller']['total_sales'] ?> sales</div>
+                <div class="mp-seller-name"><?= htmlspecialchars($product['firstName']) ?></div>
+                <!-- <div class="mp-seller-meta"><span class="mp-star">★</span> <?= htmlspecialchars($product['rating']) ?> · <?= $product['total_sales'] ?> sales</div> -->
               </div>
             </div>
           </div>
@@ -161,6 +152,10 @@
       <?php endforeach; ?>
     </div>
   </div>
+
+  <!-- smooth scrollbar CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.8.4/smooth-scrollbar.js"></script>
+  <script src="utils/script.js"></script>
   <!-- Bootstrap Bundle with Popper -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> 
 </body>

@@ -1,15 +1,9 @@
 <?php
-  include "db/dbconnection.php";
-  include "data/indexData.php";
-  include "controllers/Router.php";
-  include "data/global/sessionData.php";
-  include "data/products.php";
-?>
+  require "controllers/Router.php";
+  require "data/global/sessionData.php";
 
 // If session exists, redirect to dashboard
-<?php
   if (CheckSession()){
-
     header("Location: /dashboard.php");
     exit; // dont execute the rest
   }
@@ -582,30 +576,30 @@
 
         <!-- Product grid -->
         <div class="row g-3">
-          <?php foreach ($products as $product): ?>
+          <?php foreach ($indexPageProducts as $product): ?>
             <div class="col-6 col-md-4 col-lg-2">
-              <a href="/listing/<?= urlencode(strtolower(str_replace(' ', '-', $product['title']))) ?>"
+              <a href="/product-detail.php?id=<?= $product["id"]?>"
                 class="mp-card d-block text-decoration-none">
 
                 <!-- Image -->
                 <div class="mp-img">
                   <img
                     src="<?= htmlspecialchars($product['image']) ?>"
-                    alt="<?= htmlspecialchars($product['title']) ?>"
+                    alt="<?= htmlspecialchars($product['product_name']) ?>"
                     loading="lazy"
                   >
-                  <?php if ($product['badge']): ?>
+                  <!-- <?php if ($product['badge']): ?>
                     <span class="mp-badge <?= $product['badge_class'] ?>">
                       <?= htmlspecialchars($product['badge']) ?>
                     </span>
-                  <?php endif; ?>
-                  <span class="mp-wish" title="Save to wishlist" aria-label="Save to wishlist">&#9825;</span>
+                  <?php endif; ?> -->
+                  <!-- <span class="mp-wish" title="Save to wishlist" aria-label="Save to wishlist">&#9825;</span> -->
                 </div>
 
                 <!-- Body -->
                 <div class="mp-body">
                   <p class="mp-cat"><?= htmlspecialchars($product['category']) ?></p>
-                  <p class="mp-name"><?= htmlspecialchars($product['title']) ?></p>
+                  <p class="mp-name"><?= htmlspecialchars($product['product_name']) ?></p>
                   <p class="mp-desc"><?= htmlspecialchars($product['description']) ?></p>
 
                   <div class="mp-price-row">
@@ -618,24 +612,24 @@
                   <div class="mp-seller">
                     <?php $seller = $product['seller']; ?>
 
-                    <?php if (!empty($seller['avatar'])): ?>
+                    <?php if (!empty($product['avatar'])): ?>
                       <img
-                        src="<?= htmlspecialchars($seller['avatar']) ?>"
-                        alt="<?= htmlspecialchars($seller['name']) ?>"
+                        src="<?= htmlspecialchars($product['avatar']) ?>"
+                        alt="<?= htmlspecialchars($product['firstName']) ?>"
                         class="mp-avatar"
                       >
                     <?php else: ?>
                       <!-- Initials fallback -->
                       <div class="mp-avatar" style="background:#f0eeea; color:#666;">
-                        <?= htmlspecialchars($seller['initials']) ?>
+                        <?= htmlspecialchars($product['initials']) ?>
                       </div>
                     <?php endif; ?>
 
                     <div style="min-width:0;">
-                      <div class="mp-seller-name"><?= htmlspecialchars($seller['name']) ?></div>
+                      <div class="mp-seller-name"><?= htmlspecialchars($product['firstName']) ?></div>
                       <div class="mp-seller-meta">
                         <span class="mp-star">&#9733;</span>
-                        <?= htmlspecialchars($seller['rating']) ?> &middot; <?= $seller['total_sales'] ?> sales
+                        <?= htmlspecialchars($product['rating']) ?> &middot; <?= $product['total_sales'] ?> sales
                       </div>
                     </div>
                   </div>

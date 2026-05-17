@@ -17,7 +17,7 @@ $connection->exec(
         id INT AUTO_INCREMENT PRIMARY KEY,
         firstName VARCHAR(30) NOT NULL,
         lastName VARCHAR(30) NOT NULL,
-        hashedPassword VARCHAR(50) NOT NULL,
+        hashedPassword VARCHAR(500) NOT NULL,
         dateOfBirth DATETIME,
         address VARCHAR(50) NOT NULL,
         dateRegistered DATETIME DEFAULT CURRENT_TIMESTAMP
@@ -29,7 +29,7 @@ $connection->exec(
     "CREATE TABLE IF NOT EXISTS products (
         id INT AUTO_INCREMENT PRIMARY KEY,
         name VARCHAR(30) NOT NULL,
-        desciption TEXT NOT NULL,
+        description TEXT NOT NULL,
         price DECIMAL NOT NULL,
         seller INT,
         quantity INT NOT NULL,

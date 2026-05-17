@@ -17,7 +17,7 @@ class User {
         string $firstName,
         string $lastName
     ){
-        $this->idNumber = $idNumber;
+        $this->$idNumber = $idNumber;
         $this->$firstName = $firstName;
         $this->$lastName = $lastName;
         //implement validation logic

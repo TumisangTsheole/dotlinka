@@ -1,7 +1,6 @@
 <?php
   require "controllers/Router.php";
   require "data/global/sessionData.php";
-  // require "data/productDetailData.php";
 
 // If session doesnt exist, redirect to index
   if (!CheckSession()){
@@ -149,19 +148,8 @@
 
   <!-- Product Detail -->
   <div class="product-detail">
-    <?php
-    // $productDetailPageProducts = [
-    //   'title'=>'Sony WH-1000XM5 headphones',
-    //   'category'=>'Electronics',
-    //   'description'=>'Barely used, original box included. Noise cancellation still pristine.',
-    //   'price'=>3200,
-    //   'condition'=>'Like new',
-    //   'image'=>'https://placehold.co/600x400/E6F1FB/378ADD?text=🎧',
-    //   'seller'=>['name'=>'Thabo M.','initials'=>'TM','rating'=>'4.9','total_sales'=>142]
-    // ];
-    ?>
     <div class="product-img">
-      <img src="<?= htmlspecialchars($productDetailPageProducts['image']) ?>" alt="<?= htmlspecialchars($productDetailPageProducts['product_name']) ?>">
+      <img src="<?= htmlspecialchars("https://placehold.co/600x400.png") ?>" alt="<?= htmlspecialchars($productDetailPageProducts['product_name']) ?>">
     </div>
     <div class="product-info">
       <div class="category"><?= htmlspecialchars($productDetailPageProducts['category']) ?></div>

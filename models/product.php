@@ -12,7 +12,6 @@ class Product {
     private string $category; // TODO: make this an enum
 
     public function __construct(
-        int $id,
         string $name,
         string $description,
         float $price,
@@ -20,15 +19,27 @@ class Product {
         int $quantity,
         string $category
     ){
-        $this->$id = $id;
-        $this->$name = $name;
-        $this->$description = $description;
-        $this->$price = $price;
-        $this->$seller = $seller;
-        $this->$quantity = $quantity;
-        $this->$category = $category;
+        $this->name = $name;
+        $this->description = $description;
+        $this->price = $price;
+        $this->seller = $seller;
+        $this->quantity = $quantity;
+        $this->category = $category;
 
         //implement validation logic
+    }
+
+    public function getAllProperties() : array {
+        $props = [
+            $this->name,
+            $this->description,
+            $this->price,
+            $this->seller,
+            $this->quantity,
+            $this->category
+        ];
+        
+        return $props;
     }
 
 }

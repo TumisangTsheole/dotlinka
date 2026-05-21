@@ -79,7 +79,7 @@
                 </g>
               </svg>
             </button>
-            <a href="#" class="d-flex align-items-center btn btn-primary border rounded-pill px-2 ms-2">
+            <a href="/loginPage.php" class="d-flex align-items-center btn btn-primary border rounded-pill px-2 ms-2">
               <span class="ms-2">Sign In</span>
               <div class="border rounded-circle bg-light ms-2 p-1">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="22" height="22" viewBox="0 0 24 24" style="color: rgb(28, 32, 51);">

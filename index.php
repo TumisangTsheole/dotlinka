@@ -1,6 +1,8 @@
 <?php
-  require "controllers/Router.php";
-  require "data/global/sessionData.php";
+  define('PROJECT_ROOT', __DIR__);
+
+  require PROJECT_ROOT ."controllers/Router.php";
+  require PROJECT_ROOT . "data/global/sessionData.php";
 
 // If session exists, redirect to dashboard
   if (CheckSession()){

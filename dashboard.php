@@ -128,9 +128,9 @@
     <div class="row">
       <?php
       foreach ($dashboardPageProducts as $product): ?>
-        <a href="./product-detail.php" class="mp-card">
+        <a href="./product-detail.php?id=<?= $product["id"] ?>" class="mp-card">
           <div class="mp-img">
-            <!-- <img src="<?= htmlspecialchars($product['image']) ?>" alt="<?= htmlspecialchars($product['product_name']) ?>"> -->
+            <img src="<?= htmlspecialchars("https://placehold.co/600x400/000000/FFFFFF/png") ?>" alt="<?= htmlspecialchars($product['product_name']) ?>">
           </div>
           <div class="mp-body">
             <p class="mp-cat"><?= htmlspecialchars($product['category']) ?></p>

@@ -1,9 +1,9 @@
 <?php
 
 class ProductController {
-    private $_dbConnection;
+    private PDO $_dbConnection;
 
-    public function __construct($dbConnection){
+    public function __construct(PDO $dbConnection){
         $this->_dbConnection = $dbConnection;
     }
 
@@ -32,7 +32,6 @@ class ProductController {
         if (count($result) == 0){
             return null;
         }
-        print_r($result);
         return $result;
     }
 
@@ -53,6 +52,22 @@ class ProductController {
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
+    }
+
+    public function addProduct(Product $product){
+         $statement = $this->_dbConnection->prepare(
+            "INSERT INTO products 
+            (
+            	name,
+                description,
+                price,
+                seller,
+                quantity,
+                category
+            )
+            VALUES (?, ?, ?, ?, ?, ?);"
+        );
+        $statement->execute($product->getAllProperties());
     }
 
     

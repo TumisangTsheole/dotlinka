@@ -7,7 +7,7 @@ $session;
 // Check if broswer contains session data
 function CheckSession(){
     // TODO
-    return false;
+    return true;
 }
 
 // Session Data, retrieved from browser LocalStorage or database on log in

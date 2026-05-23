@@ -30,6 +30,7 @@ switch ($path){
                 $indexPageProducts = $product->getAllProducts(); 
                 break;
             default:  
+                echo "index.php default";
                 break;          
         }
         break;
@@ -48,6 +49,7 @@ switch ($path){
             case "PATCH":
                 break;
             default:  
+                echo "dashboard.php defualt";
                 break;          
         }
         break;
@@ -68,7 +70,9 @@ switch ($path){
             exit;
         }
 
+        // Update state
         $productDetailPageProducts = $returnedProduct;
+        $requestedId = $productId;
         break;
     case "/formHandlers/registerUser.php":
         $user = new User(
@@ -89,6 +93,36 @@ switch ($path){
         $userController = new UserController($connection);
         $userController->addUser($user);
         break;
+    case "/formHandlers/authentication.php":
+        $userEmail = htmlspecialchars($_POST["email"]);
+        $userPassword = htmlspecialchars($_POST["password"]);
+        
+        $userController = new UserController($connection);
+        $user = $userController->getUserByEmail($userEmail);
+     
+        // if (password_verify($userPassword, $user["hashedPassword"]))
+        // {
+        //     echo "Access Granted";
+        //     exit;
+        // }
+
+        if ($user == false || !password_verify($userPassword, $user["hashedPassword"])){
+            http_response_code(401);
+            echo "401 Unauthorized | Incorrect Credentials. Please go back and try again";
+            exit;
+        }
+
+        
+        // TODO: DONT FORGET TO CHANGE YOUR AUTH IMPLEMENTATION 
+        // set session token for authentication and authorization
+        setCookie("sessionId", "opentokenforeveryuser", 0, "/");
+        setCookie("userId", json_encode($user["id"]), 0, "/");
+
+        break;
+
+
+
+        
     case "/formHandlers/registerProduct.php":
         // get user session and pass id into getUser() to
         // to check if user exists
@@ -110,6 +144,14 @@ switch ($path){
         $productController = new ProductController($connection);
         $productController->addProduct($product);
         break;
-          
+    case "/addProductToCart.php":
+        $cartController = new CartController($connection);
+        $cartController->addProductToCart("123456789", 2);
+        echo "Product Added Successfully, Hit the back button on your browser and refresh";    
+        break;  
+    case "/cartPage.php":
+        $cartController = new CartController($connection);
+        $cartData = $cartController->getCart("123456789");
+        break;        
 }
 

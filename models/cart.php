@@ -6,14 +6,14 @@ class Cart {
     private int $id;
     private string $buyer;
     // cart can only consist of unfullfilled orders
-    private array $products = []; // add validation | 
+    private int $product;
 
     public function __construct(
-        int $id,
-        array $products
+        string $buyer,
+        int $product
     ){
-        $this->$id = $id;
-        $this->$products = $products;
+        $this->buyer = $buyer;
+        $this->$product = $product;
         // implement validation to make sure products are from the same seller
     }
 

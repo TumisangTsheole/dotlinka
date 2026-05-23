@@ -1,12 +1,11 @@
 <?php
-  require "controllers/Router.php";
   require "data/global/sessionData.php";
+  require "db/dbconnection.php";
+  require "data/dashboardData.php";
+  require "controllers/ProductController.php";
+  require "controllers/UserController.php";
+  require "controllers/Router.php";
 
-// If session doesnt exist, redirect to index
-  if (!CheckSession()){
-    header("Location: /index.php");
-    exit; // dont execute the rest
-    } 
 ?>
 
 

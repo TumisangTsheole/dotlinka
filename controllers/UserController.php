@@ -8,13 +8,23 @@ class UserController {
     }
 
     //GET
-    public function getUser($id) : array{
+    public function getUser(string $id) : array|bool {
         $statement = $this->_dbConnection->prepare(
             "SELECT id FROM users
             WHERE users.id = ?;"
         );
         $statement->execute([$id]);
-        $result = $statement->fetch(PD0::FETCH_ASSOC);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
+        return $result;
+    }
+
+    public function getUserByEmail(string $email) : array|bool{
+        $statement = $this->_dbConnection->prepare(
+            "SELECT id, hashedPassword FROM users
+            WHERE users.email = ?;"
+        );
+        $statement->execute([$email]);
+        $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result;
     }
 

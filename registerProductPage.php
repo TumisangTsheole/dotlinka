@@ -1,3 +1,17 @@
+<?php
+  require "data/global/sessionData.php";
+  require "db/dbconnection.php";
+  require "data/indexData.php";
+  require "controllers/ProductController.php";
+  require "controllers/UserController.php";
+  require "controllers/Router.php";
+
+  if (!isset($sessionData)){
+    header("Location: /loginPage.php");
+  }
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

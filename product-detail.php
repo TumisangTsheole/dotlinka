@@ -1,12 +1,13 @@
 <?php
-  require "controllers/Router.php";
+  $requestedId; // Used to store the request param "?id=???" so that we know which product was requested to view
+  
   require "data/global/sessionData.php";
+  require "db/dbconnection.php";
+  require "data/productDetailData.php";
+  require "controllers/ProductController.php";
+  require "controllers/UserController.php";
+  require "controllers/Router.php";
 
-// If session doesnt exist, redirect to index
-  if (!CheckSession()){
-    header("Location: /index.php");
-    exit; // dont execute the rest
-    } 
 ?>
 
 
@@ -167,7 +168,7 @@
       </div>
 
       <div style="margin-top:1.5rem;">
-        <a href="api/order.php?id=1234" class="btn-primary">Add to Cart</a>
+        <a href="/addProductToCart.php?id=<?=$requestedId?>" class="btn-primary">Add to Cart</a>
         <a class="btn-secondary">Message Seller</a>
       </div>
     </div>

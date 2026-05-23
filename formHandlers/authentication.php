@@ -1,9 +1,8 @@
 <?php
 
-require "../pathBootstrap.php";
+require "../db/dbconnection.php";
+require "../controllers/UserController.php";
+require "../controllers/Router.php";
 
-$email = htmlspecialchars($_POST["email"]);
-$password = htmlspecialchars($_POST["password"]);
-
-print_r($email);
-print_r($password);
+// header("Location: /dashboard.php");
+// exit;

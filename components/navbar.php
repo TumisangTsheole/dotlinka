@@ -71,6 +71,7 @@
         <div class="d-flex align-items-center">
     
           <div class="d-flex ms-4">
+
             <button type="button" class="btn btn-outline-secondary border rounded-pill">
               <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="26" height="26" viewBox="0 0 24 24" style="color: rgb(28, 32, 51);">
                 <g fill="currentColor">
@@ -78,6 +79,9 @@
                   <path d="M16 15a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v6H6v-6a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v6h-2z"></path>
                 </g>
               </svg>
+            </button>
+            <button type="button" class="btn btn-outline-secondary border rounded-pill ms-3">
+              <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="35" height="35" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="2"><path d="M5 7h13.79a2 2 0 0 1 1.99 2.199l-.6 6A2 2 0 0 1 18.19 17H8.64a2 2 0 0 1-1.962-1.608z"></path><path stroke-linecap="round" d="m5 7l-.81-3.243A1 1 0 0 0 3.22 3H2m6 18h2m6 0h2"></path></g></svg>
             </button>
             <a href="/loginPage.php" class="d-flex align-items-center btn btn-primary border rounded-pill px-2 ms-2">
               <span class="ms-2">Sign In</span>

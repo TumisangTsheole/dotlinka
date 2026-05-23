@@ -1,14 +1,10 @@
 <?php
-  define('PROJECT_ROOT', __DIR__);
+  require "db/dbconnection.php";
+  require "data/indexData.php";
+  require "controllers/ProductController.php";
+  require "controllers/UserController.php";
+  require "controllers/Router.php";
 
-  require PROJECT_ROOT ."controllers/Router.php";
-  require PROJECT_ROOT . "data/global/sessionData.php";
-
-// If session exists, redirect to dashboard
-  if (CheckSession()){
-    header("Location: /dashboard.php");
-    exit; // dont execute the rest
-  }
 ?>
 
 
@@ -525,7 +521,7 @@
           </p>
           <div>
             <a href="dashboard.php" class="hero-btn-primary">Explore</a>
-            <button type="button" class="hero-btn-secondary">For New Users &rarr;</button>
+            <a href="loginPage.php" class="hero-btn-secondary">For New Users &rarr;</a>
           </div>
 
           <!-- Trust bar -->

@@ -2,18 +2,25 @@
 // TODO: If session exists, automatically route to dashboard.
 // TODO: Make sure to include session checking on every page
 
-$session;
+$sessionData;
+$verificationId = "opentokenforeveryuser"; // string used to create hash
 
-// Check if broswer contains session data
-function CheckSession(){
-    // TODO
-    return true;
+// values fetched from cookie storage
+$cookieSessionId= $_COOKIE["sessionId"];
+$cookieUserId = $_COOKIE["userId"];
+
+if (!isset($cookieUserId) || $cookieSessionId != $verificationId){
+    header("Location: /loginPage.php");
+    exit;
 }
 
-// Session Data, retrieved from browser LocalStorage or database on log in
-if(CheckSession()){
-    $userSession = [
-        "firstName" => "Tumisang",
-        "lastName" => "Tsheole"
-    ];
+    $sessionData = $cookieUserId;
+    
+if ($path == "/formHandlers/authenticate.php")
+{
+    header("Location: /dashboard.php");
+    exit;
 }
+
+
+

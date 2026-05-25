@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (isset($_SESSION["userId"])) {
+    header("Location: /dashboard.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -139,8 +147,8 @@
         <button type="submit" class="btn-primary">Login</button>
       </form>
       <div class="login-footer">
-        <p>Don’t have an account? <a href="register.php">Sign up</a></p>
-        <p><a href="forgot-password.php">Forgot your password?</a></p>
+        <p>Don’t have an account? <a href="registrationPage.php">Sign up</a></p>
+        <!-- <p><a href="forgot-password.php">Forgot your password?</a></p> -->
       </div>
     </div>
   </div>

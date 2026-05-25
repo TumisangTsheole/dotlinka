@@ -6,9 +6,6 @@
   require "controllers/UserController.php";
   require "controllers/Router.php";
 
-  if (!isset($sessionData)){
-    header("Location: /loginPage.php");
-  }
 ?>
 
 

@@ -13,7 +13,7 @@ class Cart {
         int $product
     ){
         $this->buyer = $buyer;
-        $this->$product = $product;
+        $this->product = $product;
         // implement validation to make sure products are from the same seller
     }
 

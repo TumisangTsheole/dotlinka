@@ -1,8 +1,11 @@
 <?php
+  session_start();
+  
   require "db/dbconnection.php";
   require "data/indexData.php";
   require "controllers/ProductController.php";
   require "controllers/UserController.php";
+  require "controllers/CartController.php";
   require "controllers/Router.php";
 
 ?>
@@ -521,7 +524,7 @@
           </p>
           <div>
             <a href="dashboard.php" class="hero-btn-primary">Explore</a>
-            <a href="loginPage.php" class="hero-btn-secondary">For New Users &rarr;</a>
+            <a href="registrationPage.php" class="hero-btn-secondary">For New Users &rarr;</a>
           </div>
 
           <!-- Trust bar -->

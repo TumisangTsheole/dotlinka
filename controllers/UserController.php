@@ -10,7 +10,7 @@ class UserController {
     //GET
     public function getUser(string $id) : array|bool {
         $statement = $this->_dbConnection->prepare(
-            "SELECT id FROM users
+            "SELECT id, firstName, lastName FROM users
             WHERE users.id = ?;"
         );
         $statement->execute([$id]);

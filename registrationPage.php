@@ -183,7 +183,7 @@
         <button type="submit" class="btn-primary">Register</button>
       </form>
       <div class="register-footer">
-        <p>Already have an account? <a href="login.php">Login here</a></p>
+        <p>Already have an account? <a href="loginPage.php">Login here</a></p>
       </div>
     </div>
   </div>

@@ -1,5 +1,17 @@
 <?php
 
+/*
+TODO:
+Schema changes, product quantity should not be less 0,
+When quantity reaches zero, product should not be displayed nor
+should be allowed to add to cart, see if this can be enforced in 
+schema,
+
+
+
+
+*/
+
 /**
  * Script that creates the database and scheam 
  * if doesnt exist,
@@ -25,7 +37,7 @@ $connection->exec(
         physicalAddress VARCHAR(50) NOT NULL,
         idCardImages JSON NOT NULL,
         userImages JSON NOT NULL,
-        walletBalance DECIMAL NOT NULL,
+        walletBalance DECIMAL(10, 2) NOT NULL,
         dateRegistered DATETIME DEFAULT CURRENT_TIMESTAMP
     );"
 );
@@ -61,8 +73,11 @@ $connection->exec(
 $connection->exec(
     "CREATE TABLE IF NOT EXISTS orders (
         id INT AUTO_INCREMENT PRIMARY KEY,
-        buyer VARCHAR(13),
-        FOREIGN KEY (buyer) REFERENCES users(id) 
+        buyer VARCHAR(13) NOT NULL,
+        product INT NOT NULL,
+        amount DECIMAL(10,2) NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (buyer) REFERENCES users(id),
+        FOREIGN KEY (product) REFERENCES products(id) 
     );"
 );
-

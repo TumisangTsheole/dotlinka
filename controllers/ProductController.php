@@ -35,6 +35,14 @@ class ProductController {
         return $result;
     }
 
+    public function getProductsBySeller(string $sellerId) : array {
+        $statement = $this->_dbConnection->prepare(
+            "SELECT * FROM products WHERE seller = :sellerId ORDER BY id DESC;"
+        );
+        $statement->execute([":sellerId" => $sellerId]);
+        return $statement->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getAllProducts(){
         $statement = $this->_dbConnection->query(
             "SELECT p.id,
@@ -68,6 +76,29 @@ class ProductController {
             VALUES (?, ?, ?, ?, ?, ?);"
         );
         $statement->execute($product->getAllProperties());
+    }
+
+    public function deleteProduct(string $sellerId, int $productId) : void {
+    $statement = $this->_dbConnection->prepare(
+        "DELETE FROM products WHERE id = :productId AND seller = :sellerId;"
+    );
+    $statement->execute([":productId" => $productId, ":sellerId" => $sellerId]);
+}
+
+    public function updateProduct(string $sellerId, int $productId, string $name, string $description, float $price, int $quantity) : void {
+        $statement = $this->_dbConnection->prepare(
+            "UPDATE products
+            SET name = :name, description = :description, price = :price, quantity = :quantity
+            WHERE id = :productId AND seller = :sellerId;"
+        );
+        $statement->execute([
+            ":name"        => $name,
+            ":description" => $description,
+            ":price"       => $price,
+            ":quantity"    => $quantity,
+            ":productId"   => $productId,
+            ":sellerId"    => $sellerId
+        ]);
     }
 
     

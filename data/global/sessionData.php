@@ -1,26 +1,9 @@
 <?php
-// TODO: If session exists, automatically route to dashboard.
-// TODO: Make sure to include session checking on every page
+session_start();
 
-$sessionData;
-$verificationId = "opentokenforeveryuser"; // string used to create hash
-
-// values fetched from cookie storage
-$cookieSessionId= $_COOKIE["sessionId"];
-$cookieUserId = $_COOKIE["userId"];
-
-if (!isset($cookieUserId) || $cookieSessionId != $verificationId){
+if (!isset($_SESSION["userId"])) {
     header("Location: /loginPage.php");
     exit;
 }
 
-    $sessionData = $cookieUserId;
-    
-if ($path == "/formHandlers/authenticate.php")
-{
-    header("Location: /dashboard.php");
-    exit;
-}
-
-
-
+$sessionUserId = $_SESSION["userId"];

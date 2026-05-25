@@ -6,6 +6,7 @@
   require "data/productDetailData.php";
   require "controllers/ProductController.php";
   require "controllers/UserController.php";
+  require "controllers/CartController.php";
   require "controllers/Router.php";
 
 ?>
@@ -156,19 +157,37 @@
       <div class="category"><?= htmlspecialchars($productDetailPageProducts['category']) ?></div>
       <h1><?= htmlspecialchars($productDetailPageProducts['product_name']) ?></h1>
       <div class="price">R <?= number_format($productDetailPageProducts['price']) ?></div>
-      <div class="condition"><?= htmlspecialchars($productDetailPageProducts['condition']) ?></div>
+      <!-- <div class="condition"><?= htmlspecialchars($productDetailPageProducts['condition']) ?></div> -->
       <p><?= htmlspecialchars($productDetailPageProducts['description']) ?></p>
 
       <div class="seller-box">
-        <div class="seller-avatar"><?= htmlspecialchars($productDetailPageProducts['seller']['initials']) ?></div>
+        <!-- <div class="seller-avatar"><?= htmlspecialchars($productDetailPageProducts['seller']['initials']) ?></div> -->
         <div class="seller-info">
-          <?= htmlspecialchars($productDetailPageProducts['firstName']) ?>
-          <span>★ <?= htmlspecialchars($productDetailPageProductsDetailPageProducts['rating']) ?> · <?= $productDetailPageProductsDetailPageProducts['seller']['total_sales'] ?> sales</span>
+          <h5>Seller</h5>
+          <?= htmlspecialchars($productDetailPageProducts['firstName']) . " " . htmlspecialchars($productDetailPageProducts['lastName']) ?>
+          <!-- <span>★ <?= htmlspecialchars($productDetailPageProducts['rating']) ?> · <?= $productDetailPageProducts['seller']['total_sales'] ?> sales</span> -->
         </div>
       </div>
 
       <div style="margin-top:1.5rem;">
-        <a href="/addProductToCart.php?id=<?=$requestedId?>" class="btn-primary">Add to Cart</a>
+        <?php if (isset($_GET["error"])): ?>
+            <div style="
+                background: #fff0ed;
+                border: 1px solid #D85A30;
+                color: #D85A30;
+                border-radius: 8px;
+                padding: .65rem 1rem;
+                font-size: 14px;
+                margin-bottom: 1rem;
+            ">
+                <?php if ($_GET["error"] === "own_listing"): ?>
+                    You can't add your own listing to your cart.
+                <?php elseif ($_GET["error"] === "out_of_stock"): ?>
+                    Sorry, this item is out of stock.
+                <?php endif; ?>
+            </div>
+        <?php endif; ?>
+        <a href="formHandlers/addProductToCart.php?id=<?=$requestedId?>" class="btn-primary">Add to Cart</a>
         <a class="btn-secondary">Message Seller</a>
       </div>
     </div>

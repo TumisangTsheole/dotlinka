@@ -9,10 +9,10 @@ include "./dbconnection.php";
 $jsonParam = '["/staticFileStorage/123456789_idcardimage.png"]';
 // --- USERS ---
 $users = [
-    ['123456789', 'John', null, 'Doe', 'johndoe@gmail.com', '+27601234569', password_hash('password123', PASSWORD_BCRYPT), '1990-05-14', '12 Oak Street, Cape Town', $jsonParam,'["/staticFileStorage/123456789_userimage.png"]', 0.00],
-    ['123456788','Jane', 'Melissa', 'Smith', 'j.smith@gmail.com', '+27031569874', password_hash('securepass', PASSWORD_BCRYPT), '1985-11-22', '7 Maple Ave, Johannesburg','["/staticFileStorage/123456788_idcardimage.png"]','["/staticFileStorage/123456788_userimage.png"]', 0.00],
-    ['123456787', 'Carlos', 'Joao', 'Mendes', 'cjmendes2@gmail.com', '+27459873541', password_hash('mypassword', PASSWORD_BCRYPT), '1992-03-08', '3 Pine Road, Durban', '["/staticFileStorage/123456787_idcardimage.png"]','["/staticFileStorage/123456787_userimage.png"]', 0.00],
-    ['123456786', 'Aisha', 'Laylah','Patel', 'aishapatel@gmali.com', '+27567452537', password_hash('hunter2', PASSWORD_BCRYPT), '1998-07-30', '45 Elm Blvd, Pretoria', '["/staticFileStorage/123456786_idcardimage.png"]','["/staticFileStorage/123456786_userimage.png"]', 0.00],
+    ['123456789', 'John', null, 'Doe', 'johndoe@gmail.com', '+27601234569', password_hash('password123', PASSWORD_BCRYPT), '1990-05-14', '12 Oak Street, Cape Town', $jsonParam,'["/staticFileStorage/123456789_userimage.png"]', 5000.00],
+    ['123456788','Jane', 'Melissa', 'Smith', 'j.smith@gmail.com', '+27031569874', password_hash('securepass', PASSWORD_BCRYPT), '1985-11-22', '7 Maple Ave, Johannesburg','["/staticFileStorage/123456788_idcardimage.png"]','["/staticFileStorage/123456788_userimage.png"]', 5000.00],
+    ['123456787', 'Carlos', 'Joao', 'Mendes', 'cjmendes2@gmail.com', '+27459873541', password_hash('mypassword', PASSWORD_BCRYPT), '1992-03-08', '3 Pine Road, Durban', '["/staticFileStorage/123456787_idcardimage.png"]','["/staticFileStorage/123456787_userimage.png"]', 5000.00],
+    ['123456786', 'Aisha', 'Laylah','Patel', 'aishapatel@gmali.com', '+27567452537', password_hash('hunter2', PASSWORD_BCRYPT), '1998-07-30', '45 Elm Blvd, Pretoria', '["/staticFileStorage/123456786_idcardimage.png"]','["/staticFileStorage/123456786_userimage.png"]', 5000.00],
 ];
 
 $userStmt = $connection->prepare(
@@ -70,13 +70,13 @@ echo "Γ£à Cart seeded\n";
 
 // --- ORDERS ---
 $orders = [
-    ['123456789'], // John placed an order
-    ['123456788'], // Jane placed an order
-    ['123456787'], // Carlos placed an order
+    ['123456789', 1, 300.00,'2026-02-15'], // John placed an order
+    ['123456788', 2, 150.00, '2026-03-04'], // Jane placed an order
+    ['123456787', 3, 899.99, '2026-05-20'], // Carlos placed an order
 ];
 
 $orderStmt = $connection->prepare(
-    "INSERT INTO orders (buyer) VALUES (?)"
+    "INSERT INTO orders (buyer, product, amount, created_at) VALUES (?, ?, ?, ?)"
 );
 
 foreach ($orders as $order) {

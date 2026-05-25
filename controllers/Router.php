@@ -4,17 +4,15 @@
 *   This is a router responsible for capturing requests and
 *  for routing requests to the relevant controllers
 */
-// require "../pathBootstrap.php";
 
-// require "db/dbconnection.php";
-// require "controllers/OrderController.php";
-// require "controllers/ProductController.php";
-// require "controllers/UserController.php";
+// global state management
 
-// require "data/indexData.php";
-// require "data/dashboardData.php";
-// require "data/productDetailData.php";
-
+// cartData
+if (isset($_SESSION["userId"]))
+{
+    $cartController = new CartController($connection);
+    $cartData = $cartController->getCart($_SESSION["userId"]);
+}
 
 $method = $_SERVER['REQUEST_METHOD'];
 $path = parse_url($_SERVER['REQUEST_URI'])["path"];
@@ -85,9 +83,9 @@ switch ($path){
             htmlspecialchars($_POST["password"]),
             htmlspecialchars($_POST["dateOfBirth"]),
             htmlspecialchars($_POST["physicalAddress"]),
-            htmlspecialchars($_POST["idNumber"]) . "idCardImages.pdf",
-            htmlspecialchars($_POST["idNumber"]) . "userImages.pdf",
-            0.00
+            htmlspecialchars($_POST["idNumber"]) . "_idCardImages.pdf",
+            htmlspecialchars($_POST["idNumber"]) . "_userImages.png",
+            500.00
         );
 
         $userController = new UserController($connection);
@@ -113,10 +111,10 @@ switch ($path){
         }
 
         
-        // TODO: DONT FORGET TO CHANGE YOUR AUTH IMPLEMENTATION 
-        // set session token for authentication and authorization
-        setCookie("sessionId", "opentokenforeveryuser", 0, "/");
-        setCookie("userId", json_encode($user["id"]), 0, "/");
+        session_start();
+        $_SESSION["userId"] = $user["id"];
+        header("Location: /dashboard.php");
+        exit;
 
         break;
 
@@ -126,8 +124,9 @@ switch ($path){
     case "/formHandlers/registerProduct.php":
         // get user session and pass id into getUser() to
         // to check if user exists
-        echo "Product Created Succesfully!";
-        $userid = "123456789"; //placeholder
+        // echo "Product Created Succesfully!";
+        // $userid = "123456789"; //placeholder
+        $userid = $_SESSION["userId"];
 
         $userController = new UserController($connection);
         // $user = $userController->getUser($userid);
@@ -144,14 +143,57 @@ switch ($path){
         $productController = new ProductController($connection);
         $productController->addProduct($product);
         break;
-    case "/addProductToCart.php":
+    case "/formHandlers/addProductToCart.php":
+    if (!isset($_GET["id"])) {
+        http_response_code(404);
+        header("Location: /dashboard.php");
+        exit;
+    }
+
+    $cartController = new CartController($connection);
+    $result = $cartController->addProductToCart($_SESSION["userId"], intval($_GET["id"]));
+
+    switch ($result) {
+        case "success":
+            header("Location: /cartPage.php");
+            break;
+        case "own_listing":
+            header("Location: /product-detail.php?id=" . intval($_GET["id"]) . "&error=own_listing");
+            break;
+        case "out_of_stock":
+            header("Location: /product-detail.php?id=" . intval($_GET["id"]) . "&error=out_of_stock");
+            break;
+        default:
+            header("Location: /dashboard.php");
+            break;
+    }
+    exit;
+    break;  
+
+    case "/checkoutPage.php":
+    $cartController = new CartController($connection);
+    $checkoutCartData = $cartController->getCartWithDetails($_SESSION["userId"]);
+    break;
+
+    case "/formHandlers/processCheckout.php":
         $cartController = new CartController($connection);
-        $cartController->addProductToCart("123456789", 2);
-        echo "Product Added Successfully, Hit the back button on your browser and refresh";    
-        break;  
+        $cartController->processCheckout($_SESSION["userId"]);
+        break;   
+        
     case "/cartPage.php":
-        $cartController = new CartController($connection);
-        $cartData = $cartController->getCart("123456789");
-        break;        
+    $cartController = new CartController($connection);
+    $cartData = $cartController->getCartWithDetails($sessionUserId);
+    break;  
+    
+    case "/profilePage.php":
+        $productController = new ProductController($connection);
+        $orderController = new OrderController($connection);
+        $userController = new UserController($connection);
+
+        $profileUser = $userController->getUser($sessionUserId);
+        $myListings = $productController->getProductsBySeller($sessionUserId);
+        $myOrders = $orderController->getOrdersByBuyer($sessionUserId);
+        break;
+      
 }
 

@@ -1,6 +1,7 @@
 <?php
   require "data/global/sessionData.php";
   require "db/dbconnection.php";
+  require "controllers/CartController.php";
   require "controllers/ProductController.php";
   require "controllers/OrderController.php";
   require "controllers/UserController.php";
@@ -31,7 +32,7 @@
     .page-wrapper {
       display: flex;
       min-height: 100vh;
-      padding-top: 64px;
+      /* padding-top: 64px; */
     }
 
     /* ── Sidebar ── */
@@ -47,6 +48,7 @@
       position: sticky;
       top: 64px;
       height: calc(100vh - 64px);
+      overflow-y: auto;
     }
 
     .sidebar-greeting {
@@ -122,23 +124,40 @@
       overflow-y: auto;
     }
 
+    /* ── Alerts ── */
+    .alert {
+      border-radius: 10px;
+      padding: .75rem 1.1rem;
+      font-size: 14px;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .alert-success { background: #edfaf3; border: 1px solid #6fcf97; color: #1d6b42; }
+    .alert-error   { background: #fff0ed; border: 1px solid #f5c4b5; color: #D85A30; }
+
+    /* ── Section titles ── */
     .section-title {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 700;
       color: #1a1a1a;
-      margin-bottom: 1.25rem;
+      margin: 0 0 1.25rem;
     }
 
-    /* ── User info card ── */
+    .section-block {
+      margin-bottom: 2.5rem;
+    }
+
+    /* ── User info ── */
     .info-card {
       background: #fff;
       border: 1px solid #e8e6e1;
       border-radius: 12px;
       padding: 1.5rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 1.25rem;
-      margin-bottom: 2.5rem;
     }
     .info-field span {
       display: block;
@@ -156,12 +175,11 @@
       margin: 0;
     }
 
-    /* ── Listings ── */
+    /* ── Listings grid ── */
     .listings-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
       gap: 1.25rem;
-      margin-bottom: 2.5rem;
     }
 
     .listing-card {
@@ -178,9 +196,7 @@
       background: #f0eeea;
       overflow: hidden;
     }
-    .listing-img img {
-      width: 100%; height: 100%; object-fit: cover;
-    }
+    .listing-img img { width: 100%; height: 100%; object-fit: cover; }
 
     .listing-body {
       padding: .9rem 1rem;
@@ -209,16 +225,8 @@
       padding-top: .5rem;
       border-top: 1px solid #f0eeea;
     }
-    .listing-price {
-      font-size: 15px;
-      font-weight: 700;
-      color: #D85A30;
-    }
-    .listing-qty {
-      font-size: 11px;
-      color: #aaa;
-      font-weight: 500;
-    }
+    .listing-price { font-size: 15px; font-weight: 700; color: #D85A30; }
+    .listing-qty   { font-size: 11px; color: #aaa; font-weight: 500; }
     .listing-qty.low { color: #e07b3a; font-weight: 600; }
     .listing-qty.out { color: #e05252; font-weight: 600; }
 
@@ -239,7 +247,7 @@
       font-weight: 600;
       color: #444;
       cursor: pointer;
-      text-align: center;
+      font-family: 'Inter', sans-serif;
       transition: background .15s;
     }
     .btn-edit:hover { background: #e8e6e1; }
@@ -254,10 +262,123 @@
       font-weight: 600;
       color: #D85A30;
       cursor: pointer;
-      text-align: center;
+      font-family: 'Inter', sans-serif;
       transition: background .15s;
     }
     .btn-delete:hover { background: #ffe0d6; }
+
+    /* ── Orders ── */
+    .order-card {
+      background: #fff;
+      border: 1px solid #e8e6e1;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .order-header {
+      padding: .85rem 1.25rem;
+      background: #faf9f7;
+      border-bottom: 1px solid #e8e6e1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .order-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .order-id {
+      font-size: 12px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .order-date {
+      font-size: 12px;
+      color: #aaa;
+    }
+
+    .order-party {
+      font-size: 12px;
+      color: #555;
+      font-weight: 500;
+    }
+
+    /* status badges */
+    .badge {
+      font-size: 11px;
+      font-weight: 700;
+      padding: .25rem .6rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .badge-pending   { background: #fff7e6; color: #b7791f; }
+    .badge-shipped   { background: #ebf8ff; color: #2b6cb0; }
+    .badge-completed { background: #edfaf3; color: #1d6b42; }
+    .badge-cancelled { background: #f5f3ef; color: #aaa;    }
+
+    .order-items {
+      padding: .75rem 1.25rem;
+      border-bottom: 1px solid #f0eeea;
+    }
+
+    .order-item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .4rem 0;
+      font-size: 13px;
+    }
+    .order-item-row:not(:last-child) { border-bottom: 1px solid #f5f3ef; }
+
+    .order-item-name { font-weight: 600; color: #1a1a1a; }
+    .order-item-cat  { font-size: 11px; color: #aaa; }
+    .order-item-amount { font-weight: 700; color: #D85A30; font-size: 14px; }
+
+    .order-footer {
+      padding: .85rem 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .order-total {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+    .order-total span {
+      font-size: 12px;
+      font-weight: 500;
+      color: #aaa;
+      margin-right: .4rem;
+    }
+
+    .order-actions { display: flex; gap: .5rem; }
+
+    .btn-action {
+      border: none;
+      border-radius: 7px;
+      padding: .45rem 1rem;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      transition: background .15s;
+    }
+    .btn-ship    { background: #ebf8ff; color: #2b6cb0; }
+    .btn-ship:hover    { background: #bee3f8; }
+    .btn-confirm { background: #edfaf3; color: #1d6b42; }
+    .btn-confirm:hover { background: #c6f6d5; }
+    .btn-cancel  { background: #fff0ed; color: #D85A30; }
+    .btn-cancel:hover  { background: #ffe0d6; }
 
     /* ── Edit modal ── */
     .modal-overlay {
@@ -281,11 +402,7 @@
       flex-direction: column;
       gap: 1rem;
     }
-    .modal-box h2 {
-      font-size: 18px;
-      font-weight: 700;
-      margin: 0;
-    }
+    .modal-box h2 { font-size: 18px; font-weight: 700; margin: 0; }
     .modal-box label {
       font-size: 12px;
       font-weight: 600;
@@ -307,7 +424,6 @@
     .modal-box input:focus,
     .modal-box textarea:focus { border-color: #D85A30; }
     .modal-box textarea { resize: vertical; min-height: 80px; }
-
     .modal-actions { display: flex; gap: .75rem; margin-top: .5rem; }
 
     .btn-save {
@@ -320,10 +436,11 @@
       font-size: 14px;
       font-weight: 600;
       cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
     .btn-save:hover { background: #993C1D; }
 
-    .btn-cancel {
+    .btn-cancel-modal {
       flex: 1;
       background: #f5f3ef;
       border: 1px solid #e8e6e1;
@@ -333,44 +450,20 @@
       font-weight: 600;
       color: #444;
       cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
-    .btn-cancel:hover { background: #e8e6e1; }
-
-    /* ── Orders ── */
-    .order-table {
-      width: 100%;
-      border-collapse: collapse;
-      background: #fff;
-      border: 1px solid #e8e6e1;
-      border-radius: 12px;
-      overflow: hidden;
-      font-size: 14px;
-    }
-    .order-table th {
-      background: #f5f3ef;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: .05em;
-      color: #aaa;
-      padding: .75rem 1rem;
-      text-align: left;
-    }
-    .order-table td {
-      padding: .85rem 1rem;
-      border-top: 1px solid #f0eeea;
-      color: #1a1a1a;
-    }
-    .order-table tr:hover td { background: #faf9f7; }
-    .order-amount { font-weight: 700; color: #D85A30; }
-    .order-date { color: #aaa; font-size: 12px; }
+    .btn-cancel-modal:hover { background: #e8e6e1; }
 
     .empty-state {
       text-align: center;
-      padding: 3rem 1rem;
+      padding: 2.5rem 1rem;
       color: #aaa;
       font-size: 14px;
+      background: #fff;
+      border: 1px solid #e8e6e1;
+      border-radius: 12px;
     }
+    .empty-state a { color: #D85A30; text-decoration: none; }
   </style>
 </head>
 <body>
@@ -433,99 +526,207 @@
   <!-- Main -->
   <main class="main">
 
-    <!-- User info -->
-    <p class="section-title">My Details</p>
-    <div class="info-card">
-      <div class="info-field">
-        <span>Full Name</span>
-        <p><?= htmlspecialchars($profileUser["firstName"] . " " . $profileUser["lastName"]) ?></p>
+    <?php if (isset($_GET["success"])): ?>
+      <div class="alert alert-success">
+        <?php if ($_GET["success"] === "shipped"): ?>
+          ✓ Order marked as shipped.
+        <?php elseif ($_GET["success"] === "completed"): ?>
+          ✓ Order confirmed — payment has been released to the seller.
+        <?php elseif ($_GET["success"] === "cancelled"): ?>
+          ✓ Order cancelled — your funds have been refunded.
+        <?php elseif ($_GET["success"] === "listed"): ?>
+          ✓ Your product is now live on the dashboard.
+        <?php endif; ?>
       </div>
-      <div class="info-field">
-        <span>Email</span>
-        <p><?= htmlspecialchars($profileUser["email"]) ?></p>
+    <?php endif; ?>
+
+    <?php if (isset($_GET["error"])): ?>
+      <div class="alert alert-error">
+        Something went wrong, please try again.
       </div>
-      <div class="info-field">
-        <span>Cell</span>
-        <p><?= htmlspecialchars($profileUser["cellNumber"]) ?></p>
-      </div>
-      <div class="info-field">
-        <span>Address</span>
-        <p><?= htmlspecialchars($profileUser["address"]) ?></p>
+    <?php endif; ?>
+
+    <!-- My Details -->
+    <div class="section-block">
+      <p class="section-title">My Details</p>
+      <div class="info-card">
+        <div class="info-field">
+          <span>Full Name</span>
+          <p><?= htmlspecialchars($profileUser["firstName"] . " " . $profileUser["lastName"]) ?></p>
+        </div>
+        <div class="info-field">
+          <span>Email</span>
+          <p><?= htmlspecialchars($profileUser["email"]) ?></p>
+        </div>
+        <div class="info-field">
+          <span>Cell</span>
+          <p><?= htmlspecialchars($profileUser["cellNumber"]) ?></p>
+        </div>
+        <div class="info-field">
+          <span>Address</span>
+          <p><?= htmlspecialchars($profileUser["address"]) ?></p>
+        </div>
       </div>
     </div>
 
-    <!-- My listings -->
-    <p class="section-title">My Listings</p>
-
-    <?php if (empty($myListings)): ?>
-      <div class="empty-state">You haven't listed anything yet. <a href="/registerProductPage.php" style="color:#D85A30;">List your first product →</a></div>
-    <?php else: ?>
-      <div class="listings-grid">
-        <?php foreach ($myListings as $listing): ?>
-          <?php
-            $qty = intval($listing["quantity"]);
-            $qtyClass = $qty === 0 ? "out" : ($qty <= 3 ? "low" : "");
-            $qtyLabel = $qty === 0 ? "Out of stock" : ($qty === 1 ? "1 left" : $qty . " in stock");
-          ?>
-          <div class="listing-card">
-            <div class="listing-img">
-              <img src="https://placehold.co/600x400/1a1a1a/f5f3ef/png" alt="<?= htmlspecialchars($listing["name"]) ?>">
-            </div>
-            <div class="listing-body">
-              <p class="listing-cat"><?= htmlspecialchars($listing["category"]) ?></p>
-              <p class="listing-name"><?= htmlspecialchars($listing["name"]) ?></p>
-              <div class="listing-meta">
-                <span class="listing-price">R<?= number_format($listing["price"], 2) ?></span>
-                <span class="listing-qty <?= $qtyClass ?>"><?= $qtyLabel ?></span>
+    <!-- My Listings -->
+    <div class="section-block">
+      <p class="section-title">My Listings</p>
+      <?php if (empty($myListings)): ?>
+        <div class="empty-state">
+          You haven't listed anything yet. <a href="/registerProductPage.php">List your first product →</a>
+        </div>
+      <?php else: ?>
+        <div class="listings-grid">
+          <?php foreach ($myListings as $listing): ?>
+            <?php
+              $qty = intval($listing["quantity"]);
+              $qtyClass = $qty === 0 ? "out" : ($qty <= 3 ? "low" : "");
+              $qtyLabel = $qty === 0 ? "Out of stock" : ($qty === 1 ? "1 left" : $qty . " in stock");
+            ?>
+            <div class="listing-card">
+              <div class="listing-img">
+                <img src="https://placehold.co/600x400/1a1a1a/f5f3ef/png" alt="<?= htmlspecialchars($listing["name"]) ?>">
+              </div>
+              <div class="listing-body">
+                <p class="listing-cat"><?= htmlspecialchars($listing["category"]) ?></p>
+                <p class="listing-name"><?= htmlspecialchars($listing["name"]) ?></p>
+                <div class="listing-meta">
+                  <span class="listing-price">R<?= number_format($listing["price"], 2) ?></span>
+                  <span class="listing-qty <?= $qtyClass ?>"><?= $qtyLabel ?></span>
+                </div>
+              </div>
+              <div class="listing-actions">
+                <button class="btn-edit" onclick="openEdit(
+                  <?= $listing["id"] ?>,
+                  '<?= addslashes($listing["name"]) ?>',
+                  '<?= addslashes($listing["description"]) ?>',
+                  <?= $listing["price"] ?>,
+                  <?= $listing["quantity"] ?>
+                )">Edit</button>
+                <form method="POST" action="/formHandlers/deleteProduct.php" onsubmit="return confirm('Remove this listing?')">
+                  <input type="hidden" name="productId" value="<?= $listing["id"] ?>">
+                  <button type="submit" class="btn-delete">Delete</button>
+                </form>
               </div>
             </div>
-            <div class="listing-actions">
-              <button class="btn-edit" onclick="openEdit(
-                <?= $listing["id"] ?>,
-                '<?= addslashes($listing["name"]) ?>',
-                '<?= addslashes($listing["description"]) ?>',
-                <?= $listing["price"] ?>,
-                <?= $listing["quantity"] ?>
-              )">Edit</button>
-              <form method="POST" action="/formHandlers/deleteProduct.php" onsubmit="return confirm('Remove this listing?')">
-                <input type="hidden" name="productId" value="<?= $listing["id"] ?>">
-                <button type="submit" class="btn-delete">Delete</button>
-              </form>
+          <?php endforeach; ?>
+        </div>
+      <?php endif; ?>
+    </div>
+
+    <!-- My Purchases (as buyer) -->
+    <div class="section-block">
+      <p class="section-title">My Purchases</p>
+      <?php if (empty($myPurchases)): ?>
+        <div class="empty-state">No purchases yet.</div>
+      <?php else: ?>
+        <?php foreach ($myPurchases as $order): ?>
+          <div class="order-card">
+            <div class="order-header">
+              <div class="order-meta">
+                <span class="order-id">Order #<?= $order["id"] ?></span>
+                <span class="order-date"><?= date("d M Y", strtotime($order["created_at"])) ?></span>
+                <span class="order-party">
+                  Seller: <?= htmlspecialchars($order["sellerFirstName"] . " " . $order["sellerLastName"]) ?>
+                </span>
+              </div>
+              <span class="badge badge-<?= $order["status"] ?>"><?= ucfirst($order["status"]) ?></span>
+            </div>
+
+            <div class="order-items">
+              <?php foreach ($order["items"] as $item): ?>
+                <div class="order-item-row">
+                  <div>
+                    <div class="order-item-name"><?= htmlspecialchars($item["product_name"]) ?></div>
+                    <div class="order-item-cat"><?= htmlspecialchars($item["category"]) ?></div>
+                  </div>
+                  <div class="order-item-amount">R<?= number_format($item["amount"], 2) ?></div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+
+            <div class="order-footer">
+              <div class="order-total">
+                <span>Total</span>R<?= number_format($order["total"], 2) ?>
+              </div>
+              <div class="order-actions">
+                <?php if ($order["status"] === "shipped"): ?>
+                  <form method="POST" action="/formHandlers/confirmReceipt.php">
+                    <input type="hidden" name="orderId" value="<?= $order["id"] ?>">
+                    <button type="submit" class="btn-action btn-confirm"
+                      onclick="return confirm('Confirm you have received this order? This will release payment to the seller.')">
+                      Confirm Receipt
+                    </button>
+                  </form>
+                <?php endif; ?>
+                <?php if ($order["status"] === "pending"): ?>
+                  <form method="POST" action="/formHandlers/cancelOrder.php">
+                    <input type="hidden" name="orderId" value="<?= $order["id"] ?>">
+                    <button type="submit" class="btn-action btn-cancel"
+                      onclick="return confirm('Cancel this order? Your funds will be refunded.')">
+                      Cancel Order
+                    </button>
+                  </form>
+                <?php endif; ?>
+              </div>
             </div>
           </div>
         <?php endforeach; ?>
-      </div>
-    <?php endif; ?>
+      <?php endif; ?>
+    </div>
 
-    <!-- Transaction history -->
-    <p class="section-title">Purchase History</p>
+    <!-- My Sales (as seller) -->
+    <div class="section-block">
+      <p class="section-title">My Sales</p>
+      <?php if (empty($mySales)): ?>
+        <div class="empty-state">No sales yet.</div>
+      <?php else: ?>
+        <?php foreach ($mySales as $order): ?>
+          <div class="order-card">
+            <div class="order-header">
+              <div class="order-meta">
+                <span class="order-id">Order #<?= $order["id"] ?></span>
+                <span class="order-date"><?= date("d M Y", strtotime($order["created_at"])) ?></span>
+                <span class="order-party">
+                  Buyer: <?= htmlspecialchars($order["buyerFirstName"] . " " . $order["buyerLastName"]) ?>
+                </span>
+              </div>
+              <span class="badge badge-<?= $order["status"] ?>"><?= ucfirst($order["status"]) ?></span>
+            </div>
 
-    <?php if (empty($myOrders)): ?>
-      <div class="empty-state">No purchases yet.</div>
-    <?php else: ?>
-      <table class="order-table">
-        <thead>
-          <tr>
-            <th>Product</th>
-            <th>Category</th>
-            <th>Seller</th>
-            <th>Amount</th>
-            <th>Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php foreach ($myOrders as $order): ?>
-            <tr>
-              <td><?= htmlspecialchars($order["product_name"]) ?></td>
-              <td><?= htmlspecialchars($order["category"]) ?></td>
-              <td><?= htmlspecialchars($order["sellerFirstName"] . " " . $order["sellerLastName"]) ?></td>
-              <td class="order-amount">R<?= number_format($order["amount"], 2) ?></td>
-              <td class="order-date"><?= date("d M Y", strtotime($order["created_at"])) ?></td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    <?php endif; ?>
+            <div class="order-items">
+              <?php foreach ($order["items"] as $item): ?>
+                <div class="order-item-row">
+                  <div>
+                    <div class="order-item-name"><?= htmlspecialchars($item["product_name"]) ?></div>
+                    <div class="order-item-cat"><?= htmlspecialchars($item["category"]) ?></div>
+                  </div>
+                  <div class="order-item-amount">R<?= number_format($item["amount"], 2) ?></div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+
+            <div class="order-footer">
+              <div class="order-total">
+                <span>Total</span>R<?= number_format($order["total"], 2) ?>
+              </div>
+              <div class="order-actions">
+                <?php if ($order["status"] === "pending"): ?>
+                  <form method="POST" action="/formHandlers/markShipped.php">
+                    <input type="hidden" name="orderId" value="<?= $order["id"] ?>">
+                    <button type="submit" class="btn-action btn-ship"
+                      onclick="return confirm('Mark this order as shipped?')">
+                      Mark as Shipped
+                    </button>
+                  </form>
+                <?php endif; ?>
+              </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      <?php endif; ?>
+    </div>
 
   </main>
 </div>
@@ -536,7 +737,6 @@
     <h2>Edit Listing</h2>
     <form method="POST" action="/formHandlers/updateProduct.php">
       <input type="hidden" name="productId" id="edit-id">
-
       <div>
         <label>Product Name</label>
         <input type="text" name="name" id="edit-name" required>
@@ -553,9 +753,8 @@
         <label>Quantity</label>
         <input type="number" name="quantity" id="edit-quantity" min="0" required>
       </div>
-
       <div class="modal-actions">
-        <button type="button" class="btn-cancel" onclick="closeEdit()">Cancel</button>
+        <button type="button" class="btn-cancel-modal" onclick="closeEdit()">Cancel</button>
         <button type="submit" class="btn-save">Save Changes</button>
       </div>
     </form>
@@ -574,16 +773,12 @@
     document.getElementById("edit-quantity").value    = quantity;
     document.getElementById("editModal").classList.add("open");
   }
-
   function closeEdit() {
     document.getElementById("editModal").classList.remove("open");
   }
-
-  // close modal if overlay clicked
   document.getElementById("editModal").addEventListener("click", function(e) {
     if (e.target === this) closeEdit();
   });
 </script>
-
 </body>
 </html>

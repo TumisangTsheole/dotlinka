@@ -69,15 +69,26 @@ $connection->exec(
 );
 
 //order
-//TODO: ADD FOREIGN KEYS
 $connection->exec(
     "CREATE TABLE IF NOT EXISTS orders (
         id INT AUTO_INCREMENT PRIMARY KEY,
         buyer VARCHAR(13) NOT NULL,
-        product INT NOT NULL,
-        amount DECIMAL(10,2) NOT NULL,
+        seller VARCHAR(13) NOT NULL,
+        status ENUM('pending', 'shipped', 'completed', 'cancelled') DEFAULT 'pending',
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (buyer) REFERENCES users(id),
-        FOREIGN KEY (product) REFERENCES products(id) 
+        FOREIGN KEY (seller) REFERENCES users(id)
+    );"
+);
+
+// many to one with orders where multiple items can be part of a single order
+$connection->exec(
+    "CREATE TABLE IF NOT EXISTS order_items (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        order_id INT NOT NULL,
+        product INT NOT NULL,
+        amount DECIMAL(10,2) NOT NULL,
+        FOREIGN KEY (order_id) REFERENCES orders(id),
+        FOREIGN KEY (product) REFERENCES products(id)
     );"
 );

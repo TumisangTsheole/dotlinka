@@ -175,15 +175,16 @@ switch ($path){
     $checkoutCartData = $cartController->getCartWithDetails($_SESSION["userId"]);
     break;
 
-    case "/formHandlers/processCheckout.php":
-        $cartController = new CartController($connection);
-        $cartController->processCheckout($_SESSION["userId"]);
-        break;   
+    // case "/formHandlers/processCheckout.php":
+    //     $cartController = new CartController($connection);
+    //     $cartController->processCheckout($_SESSION["userId"]);
+    //     break;   
         
     case "/cartPage.php":
-    $cartController = new CartController($connection);
-    $cartData = $cartController->getCartWithDetails($sessionUserId);
-    break;  
+        require "controllers/OrderController.php";
+        $cartController = new CartController($connection);
+        $cartData = $cartController->getCartWithDetails($sessionUserId);
+        break; 
     
     case "/profilePage.php":
         $productController = new ProductController($connection);
@@ -192,7 +193,8 @@ switch ($path){
 
         $profileUser = $userController->getUser($sessionUserId);
         $myListings = $productController->getProductsBySeller($sessionUserId);
-        $myOrders = $orderController->getOrdersByBuyer($sessionUserId);
+        $myPurchases = $orderController->getOrdersByBuyer($sessionUserId);
+        $mySales = $orderController->getOrdersBySeller($sessionUserId);
         break;
       
 }

@@ -63,19 +63,109 @@ class CartController {
     return $statement->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function processCheckout(string $buyerId) : void {
-        // get cart with full details
-        $items = $this->getCartWithDetails($buyerId);
+    // public function processCheckout(string $buyerId) : void {
+    //     // get cart with full details
+    //     $items = $this->getCartWithDetails($buyerId);
+
+    //     if (empty($items)) {
+    //         echo "Your cart is empty.";
+    //         exit;
+    //     }
+
+    //     // calculate total
+    //     $total = array_sum(array_column($items, "price"));
+
+    //     // check buyer has enough balance
+    //     $balanceCheck = $this->_dbConnection->prepare(
+    //         "SELECT walletBalance FROM users WHERE id = :buyerId;"
+    //     );
+    //     $balanceCheck->execute([":buyerId" => $buyerId]);
+    //     $buyer = $balanceCheck->fetch(PDO::FETCH_ASSOC);
+
+    //     if ($buyer["walletBalance"] < $total) {
+    //         header("Location: /cartPage.php?error=insufficient_balance");
+    //         exit;
+    //     }
+
+    //     // check all items still in stock
+    //     foreach ($items as $item) {
+    //         if ($item["quantity"] <= 0) {
+    //             header("Location: /cartPage.php");
+    //             exit;
+    //         }
+    //     }
+
+    //     try {
+    //         $this->_dbConnection->beginTransaction();
+
+    //         // deduct from buyer
+    //         $deduct = $this->_dbConnection->prepare(
+    //             "UPDATE users SET walletBalance = walletBalance - :total WHERE id = :buyerId;"
+    //         );
+    //         $deduct->execute([":total" => $total, ":buyerId" => $buyerId]);
+
+    //         // credit each seller and decrement stock
+    //         $credit = $this->_dbConnection->prepare(
+    //             "UPDATE users SET walletBalance = walletBalance + :price WHERE id = :sellerId;"
+    //         );
+    //         $decrement = $this->_dbConnection->prepare(
+    //             "UPDATE products SET quantity = quantity - 1 WHERE id = :productId;"
+    //         );
+
+    //         $orderController = new OrderController($this->_dbConnection);
+    //         foreach ($items as $item) {
+    //             $credit->execute([":price" => $item["price"], ":sellerId" => $item["seller"]]);
+    //             $decrement->execute([":productId" => $item["id"]]);
+    //             $orderController->createOrder($buyerId, $item["id"], $item["price"]);
+    //         }
+
+    //         // clear cart
+    //         $clearCart = $this->_dbConnection->prepare(
+    //             "DELETE FROM cart WHERE buyer = :buyerId;"
+    //         );
+    //         $clearCart->execute([":buyerId" => $buyerId]);
+
+    //         $this->_dbConnection->commit();
+
+    //         header("Location: /dashboard.php?success=1");
+    //         exit;
+
+    //     } catch (Exception $e) {
+    //         $this->_dbConnection->rollBack();
+    //         header("Location: /cartPage.php?error=transaction_failed");
+    //         exit;
+    //     }
+    // }
+    
+    public function processCheckout(string $buyerId, string $sellerId) : void {
+        $platformId = "0000000000000";
+
+        // get only this seller's items from the cart
+        $statement = $this->_dbConnection->prepare(
+            "SELECT p.id, p.name, p.price, p.quantity, p.seller
+            FROM cart c
+            INNER JOIN products p ON c.products = p.id
+            WHERE c.buyer = :buyerId AND p.seller = :sellerId;"
+        );
+        $statement->execute([":buyerId" => $buyerId, ":sellerId" => $sellerId]);
+        $items = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         if (empty($items)) {
-            echo "Your cart is empty.";
+            header("Location: /cartPage.php");
             exit;
         }
 
-        // calculate total
+        // check stock
+        foreach ($items as $item) {
+            if ($item["quantity"] <= 0) {
+                header("Location: /cartPage.php");
+                exit;
+            }
+        }
+
         $total = array_sum(array_column($items, "price"));
 
-        // check buyer has enough balance
+        // check buyer balance
         $balanceCheck = $this->_dbConnection->prepare(
             "SELECT walletBalance FROM users WHERE id = :buyerId;"
         );
@@ -87,14 +177,6 @@ class CartController {
             exit;
         }
 
-        // check all items still in stock
-        foreach ($items as $item) {
-            if ($item["quantity"] <= 0) {
-                header("Location: /cartPage.php");
-                exit;
-            }
-        }
-
         try {
             $this->_dbConnection->beginTransaction();
 
@@ -104,30 +186,36 @@ class CartController {
             );
             $deduct->execute([":total" => $total, ":buyerId" => $buyerId]);
 
-            // credit each seller and decrement stock
-            $credit = $this->_dbConnection->prepare(
-                "UPDATE users SET walletBalance = walletBalance + :price WHERE id = :sellerId;"
+            // hold in platform escrow
+            $escrow = $this->_dbConnection->prepare(
+                "UPDATE users SET walletBalance = walletBalance + :total WHERE id = :platformId;"
             );
+            $escrow->execute([":total" => $total, ":platformId" => $platformId]);
+
+            // create one order for this seller
+            $orderController = new OrderController($this->_dbConnection);
+            $orderId = $orderController->createOrder($buyerId, $sellerId);
+
+            // add items, decrement stock
             $decrement = $this->_dbConnection->prepare(
                 "UPDATE products SET quantity = quantity - 1 WHERE id = :productId;"
             );
-
-            $orderController = new OrderController($this->_dbConnection);
             foreach ($items as $item) {
-                $credit->execute([":price" => $item["price"], ":sellerId" => $item["seller"]]);
+                $orderController->addOrderItem($orderId, $item["id"], $item["price"]);
                 $decrement->execute([":productId" => $item["id"]]);
-                $orderController->createOrder($buyerId, $item["id"], $item["price"]);
             }
 
-            // clear cart
+            // clear only this seller's items from cart
             $clearCart = $this->_dbConnection->prepare(
-                "DELETE FROM cart WHERE buyer = :buyerId;"
+                "DELETE c FROM cart c
+                INNER JOIN products p ON c.products = p.id
+                WHERE c.buyer = :buyerId AND p.seller = :sellerId;"
             );
-            $clearCart->execute([":buyerId" => $buyerId]);
+            $clearCart->execute([":buyerId" => $buyerId, ":sellerId" => $sellerId]);
 
             $this->_dbConnection->commit();
 
-            header("Location: /dashboard.php?success=1");
+            header("Location: /cartPage.php?success=1");
             exit;
 
         } catch (Exception $e) {
@@ -136,7 +224,7 @@ class CartController {
             exit;
         }
     }
-    
+
     public function removeProductFromCart(string $userId, int $productId) : void {
     $statement = $this->_dbConnection->prepare(
         "DELETE FROM cart WHERE buyer = :userId AND products = :productId LIMIT 1;"

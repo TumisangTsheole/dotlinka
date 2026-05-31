@@ -97,12 +97,6 @@ switch ($path){
         
         $userController = new UserController($connection);
         $user = $userController->getUserByEmail($userEmail);
-     
-        // if (password_verify($userPassword, $user["hashedPassword"]))
-        // {
-        //     echo "Access Granted";
-        //     exit;
-        // }
 
         if ($user == false || !password_verify($userPassword, $user["hashedPassword"])){
             http_response_code(401);
@@ -112,7 +106,8 @@ switch ($path){
 
         
         session_start();
-        $_SESSION["userId"] = $user["id"];
+        $_SESSION["userId"]   = $user["id"];
+        $_SESSION["userRole"] = $user["role"];
         header("Location: /dashboard.php");
         exit;
 

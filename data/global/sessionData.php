@@ -6,4 +6,5 @@ if (!isset($_SESSION["userId"])) {
     exit;
 }
 
-$sessionUserId = $_SESSION["userId"];
+$sessionUserId   = $_SESSION["userId"];
+$sessionUserRole = $_SESSION["userRole"] ?? "user";

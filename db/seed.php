@@ -9,11 +9,11 @@ include "./dbconnection.php";
 $jsonParam = '["/staticFileStorage/123456789_idcardimage.png"]';
 // --- USERS ---
 $users = [
- 	['0000000000000', 'Platform', null,'Escrow', 'escrow@dotlinka', '0000000000', 'N/A', '2000-01-01', 'N/A', '["N/A"]', '["N/A"]', 0.00],
-    ['123456789', 'John', null, 'Doe', 'johndoe@gmail.com', '+27601234569', password_hash('password123', PASSWORD_BCRYPT), '1990-05-14', '12 Oak Street, Cape Town', $jsonParam,'["null"]', 0.00],
-    ['123456788','Jane', 'Melissa', 'Smith', 'j.smith@gmail.com', '+27031569874', password_hash('securepass', PASSWORD_BCRYPT), '1985-11-22', '7 Maple Ave, Johannesburg','["/staticFileStorage/123456788_idcardimage.png"]','["/staticFileStorage/123456788_userimage.png"]', 5000.00],
-    ['123456787', 'Carlos', 'Joao', 'Mendes', 'cjmendes2@gmail.com', '+27459873541', password_hash('mypassword', PASSWORD_BCRYPT), '1992-03-08', '3 Pine Road, Durban', '["/staticFileStorage/123456787_idcardimage.png"]','["/staticFileStorage/123456787_userimage.png"]', 5000.00],
-    ['123456786', 'Aisha', 'Laylah','Patel', 'aishapatel@gmali.com', '+27567452537', password_hash('hunter2', PASSWORD_BCRYPT), '1998-07-30', '45 Elm Blvd, Pretoria', '["/staticFileStorage/123456786_idcardimage.png"]','["/staticFileStorage/123456786_userimage.png"]', 5000.00],
+ 	['0000000000000', 'Platform', null,'Escrow', 'escrow@dotlinka', '0000000000', 'N/A', '2000-01-01', 'N/A', '["N/A"]', '["N/A"]', 0.00, 'user'],
+    ['123456789', 'John', null, 'Doe', 'johndoe@gmail.com', '+27601234569', password_hash('password123', PASSWORD_BCRYPT), '1990-05-14', '12 Oak Street, Cape Town', $jsonParam,'["null"]', 0.00, 'user'],
+    ['123456788','Jane', 'Melissa', 'Smith', 'j.smith@gmail.com', '+27031569874', password_hash('securepass', PASSWORD_BCRYPT), '1985-11-22', '7 Maple Ave, Johannesburg','["/staticFileStorage/123456788_idcardimage.png"]','["/staticFileStorage/123456788_userimage.png"]', 5000.00, 'user'],
+    ['123456787', 'Carlos', 'Joao', 'Mendes', 'cjmendes2@gmail.com', '+27459873541', password_hash('mypassword', PASSWORD_BCRYPT), '1992-03-08', '3 Pine Road, Durban', '["/staticFileStorage/123456787_idcardimage.png"]','["/staticFileStorage/123456787_userimage.png"]', 5000.00, 'user'],
+    ['123456786', 'Aisha', 'Laylah','Patel', 'aishapatel@gmali.com', '+27567452537', password_hash('hunter2', PASSWORD_BCRYPT), '1998-07-30', '45 Elm Blvd, Pretoria', '["/staticFileStorage/123456786_idcardimage.png"]','["/staticFileStorage/123456786_userimage.png"]', 5000.00, 'user'],
 ];
 
 $userStmt = $connection->prepare(
@@ -25,10 +25,10 @@ foreach ($users as $user) {
     $userStmt->execute($user);
 }
 
-echo "Γ£à Users seeded\n";
+echo "Users seeded\n";
 
 // --- PRODUCTS ---
-// Sellers are user IDs 1ΓÇô4
+// Sellers are user IDs 
 $products = [
     ['Wireless Mouse', 'Ergonomic wireless mouse with USB receiver', 299.99, '123456789', 50, 'Electronics'],
     ['Desk Lamp', 'LED desk lamp with adjustable brightness', 149.50, '123456789', 30, 'Home'],
@@ -43,11 +43,30 @@ $productStmt = $connection->prepare(
      VALUES (?, ?, ?, ?, ?, ?)"
 );
 
+
+// Admin user
+$adminPassword = password_hash("admin123", PASSWORD_BCRYPT);
+$connection->exec(
+    "INSERT IGNORE INTO users (id, firstName, lastName, email, cellNumber, hashedPassword, dateOfBirth, phyiscalAddress, walletBalance, role)
+     VALUES (
+        '0000000000001',
+        'Admin',
+        'User',
+        'admin@dotlinka.za',
+        '0000000000',
+        '$adminPassword',
+        '2000-01-01',
+        'N/A',
+        0.00,
+        'admin'
+     );"
+);
+
 foreach ($products as $product) {
     $productStmt->execute($product);
 }
 
-echo "Γ£à Products seeded\n";
+echo "Products seeded\n";
 
 // --- CART ---
 // Buyers are users, products are product IDs 1ΓÇô6
@@ -67,7 +86,7 @@ foreach ($cartItems as $item) {
     $cartStmt->execute($item);
 }
 
-echo "Γ£à Cart seeded\n";
+echo "Cart seeded\n";
 
 // --- ORDERS ---
 // $orders = [
@@ -84,6 +103,6 @@ echo "Γ£à Cart seeded\n";
 //     $orderStmt->execute($order);
 // }
 
-echo "Γ£à Orders seeded\n";
+//echo "Orders seeded\n";
 
-echo "\n≡ƒÄë Database seeded successfully!\n";
+echo "\nDatabase seeded successfully!\n";

@@ -10,7 +10,7 @@ class UserController {
     //GET
     public function getUser(string $id) : array|bool {
         $statement = $this->_dbConnection->prepare(
-            "SELECT id, firstName, lastName, email, cellNumber, physicalAddress FROM users
+            "SELECT id, firstName, lastName, email, cellNumber, physicalAddress, role FROM users
             WHERE users.id = ?;"
         );
         $statement->execute([$id]);
@@ -20,7 +20,7 @@ class UserController {
 
     public function getUserByEmail(string $email) : array|bool{
         $statement = $this->_dbConnection->prepare(
-            "SELECT id, hashedPassword FROM users
+            "SELECT id, hashedPassword, role FROM users
             WHERE users.email = ?;"
         );
         $statement->execute([$email]);

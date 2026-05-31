@@ -38,7 +38,8 @@ $connection->exec(
         idCardImages JSON NOT NULL,
         userImages JSON NOT NULL,
         walletBalance DECIMAL(10, 2) NOT NULL,
-        dateRegistered DATETIME DEFAULT CURRENT_TIMESTAMP
+        dateRegistered DATETIME DEFAULT CURRENT_TIMESTAMP,
+        role ENUM('user', 'admin') DEFAULT 'user' NOT NULL,
     );"
 );
 

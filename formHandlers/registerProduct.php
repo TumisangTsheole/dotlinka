@@ -15,6 +15,19 @@ $description = trim($_POST["description"] ?? "");
 $price = $_POST["price"] ?? "";
 $quantity = $_POST["quantity"] ?? "";
 $category = trim($_POST["category"] ?? "");
+$image = $_FILES["image"]["tmp_name"];
+
+$newFilePath = "../uploads/products/" . $_SESSION["userId"] . "_" .$name . "." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+
+//move_uploaded_file($image, "../uploads/products/" . $newFileName);
+
+    if (move_uploaded_file($image, $newFilePath)) {
+        echo "Success! The file has been moved to " .  $newFileName;
+    } 
+    else {
+        echo "Error: Could not move the file. Check folder permissions.";
+        exit;
+    }
 
 // validation
 if (empty($name) || empty($description) || empty($price) || empty($quantity) || empty($category)) {
@@ -39,7 +52,8 @@ $productModel = new Product(
     floatval($price),
     $_SESSION["userId"],
     intval($quantity),
-    $category
+    $category,
+    $newFilePath
 );
 $productController->addProduct($productModel);
 

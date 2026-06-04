@@ -10,6 +10,7 @@ class Product {
     private string $seller;
     private int $quantity;
     private string $category; // TODO: make this an enum
+    private string $image;
 
     public function __construct(
         string $name,
@@ -17,7 +18,8 @@ class Product {
         float $price,
         string $seller,
         int $quantity,
-        string $category
+        string $category,
+        string $image
     ){
         $this->name = $name;
         $this->description = $description;
@@ -25,6 +27,7 @@ class Product {
         $this->seller = $seller;
         $this->quantity = $quantity;
         $this->category = $category;
+        $this->image = $image;
 
         //implement validation logic
     }
@@ -36,7 +39,8 @@ class Product {
             $this->price,
             $this->seller,
             $this->quantity,
-            $this->category
+            $this->category,
+            $this->image
         ];
         
         return $props;

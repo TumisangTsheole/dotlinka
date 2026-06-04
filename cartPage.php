@@ -270,7 +270,95 @@
     }
     .empty-state a { color: #D85A30; text-decoration: none; }
     .empty-state a:hover { text-decoration: underline; }
-  </style>
+
+    .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.45);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 90%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: .85rem;
+    text-align: center;
+  }
+
+  .modal-icon {
+    font-size: 32px;
+    line-height: 1;
+  }
+
+  .modal-box h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: #1a1a1a;
+  }
+
+  .modal-desc {
+    font-size: 14px;
+    color: #555;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .modal-note {
+    background: #f5f3ef;
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    font-size: 12px;
+    color: #888;
+    line-height: 1.6;
+    text-align: left;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: .75rem;
+    margin-top: .25rem;
+  }
+
+  .btn-cancel-modal {
+    flex: 1;
+    background: #f5f3ef;
+    border: 1px solid #e8e6e1;
+    border-radius: 8px;
+    padding: .65rem;
+    font-size: 14px;
+    font-weight: 600;
+    color: #444;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background .15s;
+  }
+  .btn-cancel-modal:hover { background: #e8e6e1; }
+
+  .btn-confirm-modal {
+    flex: 1;
+    background: #D85A30;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: .65rem;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: background .15s;
+  }
+  .btn-confirm-modal:hover { background: #993C1D; }
+</style>
 </head>
 <body>
 
@@ -417,12 +505,16 @@
               <span>Subtotal</span>
               R<?= number_format($group["total"], 2) ?>
             </div>
-            <form method="POST" action="/formHandlers/processCheckout.php">
+            <form method="POST" action="/formHandlers/processCheckout.php" 
+              class="checkout-form"
+              data-seller="<?= htmlspecialchars($group["sellerName"]) ?>"
+              data-total="R<?= number_format($group["total"], 2) ?>">
               <input type="hidden" name="sellerId" value="<?= htmlspecialchars($group["sellerId"]) ?>">
               <button
-                type="submit"
+                type="button"
                 class="btn-checkout"
                 <?= $group["hasOutOfStock"] ? 'disabled title="Remove out of stock items first"' : '' ?>
+                onclick="openConfirm(this)"
               >
                 Checkout with <?= htmlspecialchars($group["sellerName"]) ?>
               </button>
@@ -435,6 +527,54 @@
     <?php endif; ?>
   </main>
 </div>
+
+<!-- Confirm checkout modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-icon">🛒</div>
+    <h2 id="modalTitle">Confirm Purchase</h2>
+    <p id="modalBody" class="modal-desc"></p>
+    <div class="modal-note">
+      Funds will be held in escrow until you confirm receipt of your order. You can cancel anytime before the seller marks it as shipped.
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel-modal" onclick="closeConfirm()">Go Back</button>
+      <button class="btn-confirm-modal" id="modalConfirmBtn">Confirm & Pay</button>
+    </div>
+  </div>
+</div>
+<script>
+  let pendingForm = null;
+
+  function openConfirm(btn) {
+    const form   = btn.closest("form");
+    const seller = form.dataset.seller;
+    const total  = form.dataset.total;
+
+    pendingForm = form;
+
+    document.getElementById("modalTitle").textContent = "Confirm Purchase";
+    document.getElementById("modalBody").textContent  =
+      "You are about to checkout with " + seller + " for a total of " + total + ". Once confirmed, funds will be held in escrow until you receive your order.";
+
+    document.getElementById("modalConfirmBtn").onclick = function() {
+      closeConfirm();
+      form.submit();
+    };
+
+    document.getElementById("confirmModal").classList.add("open");
+  }
+
+  function closeConfirm() {
+    document.getElementById("confirmModal").classList.remove("open");
+    pendingForm = null;
+  }
+
+  // close on overlay click
+  document.getElementById("confirmModal").addEventListener("click", function(e) {
+    if (e.target === this) closeConfirm();
+  });
+</script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.8.4/smooth-scrollbar.js"></script>
 <script src="utils/script.js"></script>

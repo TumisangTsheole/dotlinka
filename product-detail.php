@@ -151,7 +151,7 @@
   <!-- Product Detail -->
   <div class="product-detail">
     <div class="product-img">
-      <img src="<?= htmlspecialchars("https://placehold.co/600x400.png") ?>" alt="<?= htmlspecialchars($productDetailPageProducts['product_name']) ?>">
+      <img src="<?= htmlspecialchars($productDetailPageProducts['image']) ?>" alt="<?= htmlspecialchars($productDetailPageProducts['product_name']) ?>">
     </div>
     <div class="product-info">
       <div class="category"><?= htmlspecialchars($productDetailPageProducts['category']) ?></div>
@@ -188,10 +188,15 @@
             </div>
         <?php endif; ?>
         <a href="formHandlers/addProductToCart.php?id=<?=$requestedId?>" class="btn-primary">Add to Cart</a>
-        <a class="btn-secondary">Message Seller</a>
+        <!-- <a class="btn-secondary">Message Seller</a> -->
       </div>
     </div>
   </div>
+
+  <!-- smooth scrollbar CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.8.4/smooth-scrollbar.js"></script>
+  <script src="utils/script.js"></script>
+
 
 </body>
 </html>

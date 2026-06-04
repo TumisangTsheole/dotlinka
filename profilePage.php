@@ -564,7 +564,7 @@
         </div>
         <div class="info-field">
           <span>Address</span>
-          <p><?= htmlspecialchars($profileUser["address"]) ?></p>
+          <p><?= htmlspecialchars($profileUser["physicalAddress"]) ?></p>
         </div>
       </div>
     </div>

@@ -16,6 +16,7 @@ class ProductController {
                     p.price,
                     p.quantity,
                     p.category,
+                    p.image,
                     u.firstName,
                     u.lastName
             FROM products AS p
@@ -51,12 +52,13 @@ class ProductController {
                     p.price,
                     p.quantity,
                     p.category,
+                    p.image,
                     u.firstName,
                     u.lastName
             FROM products AS p
             INNER JOIN users AS u
             ON p.seller=u.id;"
-        ); // BE CAREFUL NOT TO RETURN PASSWORDS
+        );
         $result = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return $result;
@@ -71,9 +73,10 @@ class ProductController {
                 price,
                 seller,
                 quantity,
-                category
+                category,
+                image
             )
-            VALUES (?, ?, ?, ?, ?, ?);"
+            VALUES (?, ?, ?, ?, ?, ?, ?);"
         );
         $statement->execute($product->getAllProperties());
     }
@@ -92,12 +95,12 @@ class ProductController {
             WHERE id = :productId AND seller = :sellerId;"
         );
         $statement->execute([
-            ":name"        => $name,
+            ":name" => $name,
             ":description" => $description,
-            ":price"       => $price,
-            ":quantity"    => $quantity,
-            ":productId"   => $productId,
-            ":sellerId"    => $sellerId
+            ":price" => $price,
+            ":quantity" => $quantity,
+            ":productId" => $productId,
+            ":sellerId" => $sellerId
         ]);
     }
 

@@ -309,7 +309,7 @@
     <?php endif; ?>
 
     <div class="form-card">
-      <form method="POST" action="/formHandlers/registerProduct.php">
+      <form method="POST" action="/formHandlers/registerProduct.php" enctype="multipart/form-data">
 
         <div class="form-group">
           <label>Product Name</label>
@@ -346,6 +346,11 @@
             <option value="Vehicles">Vehicles</option>
             <option value="Other">Other</option>
           </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Product Image</label>
+          <input class="form-control" type="file" name="image" id="formFile">
         </div>
 
         <button type="submit" class="btn-submit">Publish Listing</button>

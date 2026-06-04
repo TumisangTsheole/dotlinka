@@ -53,6 +53,7 @@ $connection->exec(
         seller VARCHAR(13) NOT NULL,
         quantity INT NOT NULL,
         category VARCHAR(20) NOT NULL,
+        image VARCHAR(255) DEFAULT NULL,
         FOREIGN KEY (seller) REFERENCES users(id)
     );"
 );

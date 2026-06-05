@@ -17,12 +17,13 @@ $quantity = $_POST["quantity"] ?? "";
 $category = trim($_POST["category"] ?? "");
 $image = $_FILES["image"]["tmp_name"];
 
-$newFilePath = "../uploads/products/" . $_SESSION["userId"] . "_" .$name . "." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+// Filesystem path (relative to formHandlers/) used only for moving the file
+$fsPath  = "../uploads/products/" . $_SESSION["userId"] . "_" . $name . "." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
+// Web-accessible absolute path stored in the DB and used in <img src>
+$newFilePath = "/uploads/products/" . $_SESSION["userId"] . "_" . $name . "." . pathinfo($_FILES["image"]["name"], PATHINFO_EXTENSION);
 
-//move_uploaded_file($image, "../uploads/products/" . $newFileName);
-
-    if (move_uploaded_file($image, $newFilePath)) {
-        echo "Success! The file has been moved to " .  $newFileName;
+    if (move_uploaded_file($image, $fsPath)) {
+        // file moved successfully, continue
     } 
     else {
         echo "Error: Could not move the file. Check folder permissions.";

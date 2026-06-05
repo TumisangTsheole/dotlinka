@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>commerce.za — Seller Resources</title>
+  <title>dotlinka — Seller Resources</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
@@ -267,11 +267,34 @@
       border-top: 1px solid #e8e6e1;
       margin: 2rem 0;
     }
-  </style>
+  
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .page-wrapper { flex-direction: column; }
+      .sidebar {
+        position: fixed; top: 0; left: 0;
+        height: 100vh; z-index: 1060;
+        transform: translateX(-100%);
+        transition: transform .25s ease;
+        overflow-y: auto;
+        min-width: 240px !important;
+      }
+      .sidebar.open { transform: translateX(0); }
+      .main { width: 100% !important; padding: 1rem !important; margin-left: 0 !important; }
+    }
+</style>
 </head>
 <body>
+  <?php include 'components/loading.php'; ?>
 
 <?php include 'components/navbar.php'; ?>
+<!-- Sidebar toggle button (mobile) -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">
+  <svg width="20" height="20" fill="none" stroke="#1a1a1a" stroke-width="2" viewBox="0 0 24 24">
+    <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+  </svg>
+</button>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 
 <div class="page-wrapper">
 
@@ -335,7 +358,7 @@
 
     <div class="main-header">
       <h1>Seller Resources</h1>
-      <p>Everything you need to trade safely, stay compliant, and protect yourself on commerce.za. All resources link to official South African government and fraud prevention organisations.</p>
+      <p>Everything you need to trade safely, stay compliant, and protect yourself on dotlinka. All resources link to official South African government and fraud prevention organisations.</p>
     </div>
 
     <!-- Tax & Compliance -->
@@ -494,5 +517,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.8.4/smooth-scrollbar.js"></script>
 <script src="utils/script.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var btn = document.getElementById("sidebarToggle");
+    var overlay = document.getElementById("sidebarOverlay");
+    var sidebar = document.querySelector(".sidebar");
+    if (!btn || !sidebar) return;
+    btn.addEventListener("click", function() {
+      sidebar.classList.toggle("open");
+      overlay.classList.toggle("open");
+    });
+    overlay.addEventListener("click", function() {
+      sidebar.classList.remove("open");
+      overlay.classList.remove("open");
+    });
+  });
+</script>
 </body>
 </html>

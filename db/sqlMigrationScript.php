@@ -35,11 +35,9 @@ $connection->exec(
         hashedPassword VARCHAR(500) NOT NULL,
         dateOfBirth DATETIME NOT NULL,
         physicalAddress VARCHAR(50) NOT NULL,
-        idCardImages JSON NOT NULL,
-        userImages JSON NOT NULL,
         walletBalance DECIMAL(10, 2) NOT NULL,
         dateRegistered DATETIME DEFAULT CURRENT_TIMESTAMP,
-        role ENUM('user', 'admin') DEFAULT 'user' NOT NULL,
+        role ENUM('user', 'admin') DEFAULT 'user' NOT NULL
     );"
 );
 

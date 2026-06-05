@@ -31,7 +31,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>.linka — Administrator | Orders</title>
+  <title>dotlinka — Administrator | Orders</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -282,7 +282,7 @@
     </div>
     <div class="admin-nav-right">
       <a href="/dashboard.php"           class="btn-back">← Main Site</a>
-      <a href="/formHandlers/logout.php" class="btn-logout">Logout</a>
+      <a href="../logout.php" class="btn-logout">Logout</a>
     </div>
   </nav>
 

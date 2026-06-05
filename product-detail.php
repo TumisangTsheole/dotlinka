@@ -16,15 +16,18 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>commerce.za — Product Detail</title>
+  <title>dotlinka — Product Detail</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="css/style.css">
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
+    body, html {
       font-family: 'Inter', sans-serif;
       background: #f8f7f4;
       margin: 0;
@@ -141,9 +144,19 @@
       cursor: pointer;
     }
     .btn-secondary:hover { background:#1a1a1a;color:#fff; }
-  </style>
+  
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .product-detail {
+        grid-template-columns: 1fr;
+        width: 96%;
+        padding: 1rem;
+      }
+    }
+</style>
 </head>
 <body>
+  <?php include 'components/loading.php'; ?>
 
   <!-- Navbar -->
   <?php include 'components/navbar.php' ?>
@@ -196,6 +209,7 @@
   <!-- smooth scrollbar CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.8.4/smooth-scrollbar.js"></script>
   <script src="utils/script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
 
 </body>

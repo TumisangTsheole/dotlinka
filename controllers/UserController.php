@@ -46,11 +46,9 @@ class UserController {
             	hashedPassword,
             	dateOfBirth,
             	physicalAddress,
-            	idCardImages,
-            	userImages,
             	walletBalance
             )
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
         );
         $statement->execute($user->getAllProperties());
 

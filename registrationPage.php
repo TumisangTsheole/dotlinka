@@ -71,7 +71,7 @@
         </div>
         <div class="form-group">
           <label for="cellNumber">Cell Number *</label>
-          <input type="tel" id="cellNumber" name="cellNumber" placeholder="+27 82 123 4567" required>
+          <input type="tel" id="cellNumber" name="cellNumber" placeholder="0821234567" maxlength="10" required>
         </div>
         <div class="form-group">
           <label for="password">Password *</label>
@@ -81,7 +81,6 @@
           <label for="confirm-password">Confirm Password *</label>
           <input type="password" id="confirm-password" name="confirm-password" placeholder="••••••••" required>
         </div>
-        </div>
         <button type="submit" class="btn-register">Register</button>
       </form>
       <div class="register-footer">
@@ -90,8 +89,6 @@
     </div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/smooth-scrollbar/8.8.4/smooth-scrollbar.js"></script>
-  <script src="utils/script.js"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

@@ -11,8 +11,8 @@ class User {
     private string $dateOfBirth; // see if you can get that from the id number
     private string $physicalAddress;
     private string $dateRegistered;
-    private string $idCardImagesJson; // Convert to JSON list
-    private string $userImagesJson; // Convert to JSON list
+//    private string $idCardImagesJson; // Convert to JSON list
+ //   private string $userImagesJson; // Convert to JSON list
     private float $walletBalance;
 
     //add avatar
@@ -29,8 +29,8 @@ class User {
         string $password,
         string $dateOfBirth,
         string $physicalAddress,
-        string $idCardImagesJson,
-        string $userimagesJson,
+   //     string $idCardImagesJson,
+    //    string $userimagesJson,
         float $walletBalance
     ){
         $this->idNumber = $idNumber;
@@ -41,8 +41,8 @@ class User {
         $this->cellNumber = $cellNumber;
         $this->hashedPassword = password_hash($password, PASSWORD_BCRYPT);
         $this->dateOfBirth = $dateOfBirth;
-        $this->idCardImagesJson = json_encode([$idCardImagesJson]);
-        $this->userImagesJson = json_encode([$userimagesJson]);
+      //  $this->idCardImagesJson = json_encode([$idCardImagesJson]);
+       // $this->userImagesJson = json_encode([$userimagesJson]);
         $this->physicalAddress = $physicalAddress;
         $this->walletBalance = $walletBalance;
         
@@ -66,8 +66,8 @@ class User {
             $this->hashedPassword,
             $this->dateOfBirth,
             $this->physicalAddress,
-            $this->idCardImagesJson,
-            $this->userImagesJson,
+         //   $this->idCardImagesJson,
+          //  $this->userImagesJson,
             $this->walletBalance 
         ];
         return $props;

@@ -83,9 +83,7 @@ switch ($path){
             htmlspecialchars($_POST["password"]),
             htmlspecialchars($_POST["dateOfBirth"]),
             htmlspecialchars($_POST["physicalAddress"]),
-            htmlspecialchars($_POST["idNumber"]) . "_idCardImages.pdf",
-            htmlspecialchars($_POST["idNumber"]) . "_userImages.png",
-            500.00
+			1000.00
         );
 
         $userController = new UserController($connection);

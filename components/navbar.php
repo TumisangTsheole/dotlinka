@@ -51,16 +51,7 @@
       <a href="/dashboard.php"><span class="border border-4"><strong>.</strong></span><span class="animated-gradient-text border-3"><strong>LINKA</strong></span></a>
     </h2>
 
-    <!-- Page navigation (index only) -->
-    <?php $uri = strtok($_SERVER['REQUEST_URI'], '?'); ?>
-    <?php if ($uri === '/' || basename($uri) === 'index.php'): ?>
-    <div class="d-flex align-items-center rounded-pill">
-      <a href="#featured"    class="nav-button ms-5 me-4 text-decoration-none anchor-underline">Latest</a>
-      <a href="#safety"      class="nav-button me-4 text-decoration-none anchor-underline">Safety</a>
-      <a href="#how-it-works" class="nav-button text-decoration-none anchor-underline">How It Works</a>
-    </div>
-    <?php endif; ?>
-
+  
     <!-- Auth section -->
     <div class="d-flex align-items-center">
       <div class="d-flex ms-2 gap-2 align-items-center">

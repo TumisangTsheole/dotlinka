@@ -328,7 +328,7 @@
           is protected by our built-in escrow system.
         </p>
         <div>
-          <a href="registrationPage.php" class="hero-btn-primary">Get Started Free</a>
+          <a href="registrationPage.php" class="hero-btn-primary">Get Started</a>
           <a href="dashboard.php" class="hero-btn-secondary">Browse Listings &rarr;</a>
         </div>
         <div class="hero-trust">
@@ -536,7 +536,7 @@
       </div>
 
       <div class="row g-3">
- 		<?php foreach (array_slice($indexPageProducts, 0, 4) as $product): ?>
+ 		<?php foreach (array_slice($indexPageProducts, 0, 7) as $product): ?>
           <div class="col-6 col-md-4 col-lg-2">
             <a href="/product-detail.php?id=<?= $product["id"] ?>"
                class="mp-card d-block text-decoration-none">
